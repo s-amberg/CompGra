@@ -205,10 +205,7 @@
           "EduGraf.OpenGL.OpenTK": "1.1.6"
         },
         "runtime": {
-          "Utils.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Utils.dll": {}
         }
       }
     }

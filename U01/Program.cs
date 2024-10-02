@@ -73,7 +73,7 @@ static class Program
     static void Main()
     {
         var graphic = new OpenTkGraphic();
-        var camera = new OrbitCamera(new Point3(1, -2, -2),  Space.Origin3);
+        var camera = new OrbitCamera(new Point3(1, -2, -2),  Point3.Origin);
         var rendering = new CircleRendering(graphic, camera);
         using var window = new OpenTkWindow("U01", graphic, 700, 700, camera.Handle);
         window.Show(rendering);

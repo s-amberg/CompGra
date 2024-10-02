@@ -539,32 +539,40 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Simon\\.nuget\\packages\\": {}
+    "C:\\Users\\sambe\\.nuget\\packages\\": {},
+    "K:\\Programme\\Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Simon\\RiderProjects\\CompGra\\Universe\\Universe.csproj",
+      "projectUniqueName": "T:\\sambe\\Documents\\VisualStudioProjects\\CompGra\\Universe\\Universe.csproj",
       "projectName": "Universe",
-      "projectPath": "C:\\Users\\Simon\\RiderProjects\\CompGra\\Universe\\Universe.csproj",
-      "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Simon\\RiderProjects\\CompGra\\Universe\\obj\\",
+      "projectPath": "T:\\sambe\\Documents\\VisualStudioProjects\\CompGra\\Universe\\Universe.csproj",
+      "packagesPath": "C:\\Users\\sambe\\.nuget\\packages\\",
+      "outputPath": "T:\\sambe\\Documents\\VisualStudioProjects\\CompGra\\Universe\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "K:\\Programme\\Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\sambe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Simon\\RiderProjects\\CompGra\\Utils\\Utils.csproj": {
-              "projectPath": "C:\\Users\\Simon\\RiderProjects\\CompGra\\Utils\\Utils.csproj"
+            "T:\\sambe\\Documents\\VisualStudioProjects\\CompGra\\Utils\\Utils.csproj": {
+              "projectPath": "T:\\sambe\\Documents\\VisualStudioProjects\\CompGra\\Utils\\Utils.csproj"
             }
           }
         }
@@ -573,11 +581,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -609,7 +612,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   },

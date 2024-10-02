@@ -1,36 +1,25 @@
 {
   "version": 2,
-  "dgSpecHash": "fpBkxlXNyFc=",
-  "success": false,
-  "projectFilePath": "C:\\Users\\Simon\\RiderProjects\\CompGra\\U01\\U01.csproj",
+  "dgSpecHash": "lbol+QjQ/nTmBziv/qF4ZuoPGJHjcg7Hqg30XhZgP77bJCf4g/gZbN1o5wTEn0jew1C2gcg1977ZBgL1rUWG/w==",
+  "success": true,
+  "projectFilePath": "T:\\sambe\\Documents\\VisualStudioProjects\\CompGra\\U01\\U01.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Simon\\.nuget\\packages\\edugraf\\1.1.2\\edugraf.1.1.2.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\edugraf.opengl\\1.1.2\\edugraf.opengl.1.1.2.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\edugraf.opengl.opentk\\1.1.2\\edugraf.opengl.opentk.1.1.2.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\opentk\\4.7.4\\opentk.4.7.4.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\opentk.compute\\4.7.4\\opentk.compute.4.7.4.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\opentk.core\\4.7.4\\opentk.core.4.7.4.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\opentk.graphics\\4.7.4\\opentk.graphics.4.7.4.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\opentk.input\\4.7.4\\opentk.input.4.7.4.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\opentk.mathematics\\4.7.4\\opentk.mathematics.4.7.4.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\opentk.openal\\4.7.4\\opentk.openal.4.7.4.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\opentk.redist.glfw\\3.3.7.27\\opentk.redist.glfw.3.3.7.27.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\opentk.windowing.common\\4.7.4\\opentk.windowing.common.4.7.4.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\opentk.windowing.desktop\\4.7.4\\opentk.windowing.desktop.4.7.4.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\opentk.windowing.graphicslibraryframework\\4.7.4\\opentk.windowing.graphicslibraryframework.4.7.4.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\sixlabors.imagesharp\\3.1.5\\sixlabors.imagesharp.3.1.5.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
-    "C:\\Users\\Simon\\.nuget\\packages\\utils\\1.0.0\\utils.1.0.0.nupkg.sha512"
+    "C:\\Users\\sambe\\.nuget\\packages\\edugraf\\1.1.5\\edugraf.1.1.5.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\edugraf.opengl\\1.1.6\\edugraf.opengl.1.1.6.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\edugraf.opengl.opentk\\1.1.6\\edugraf.opengl.opentk.1.1.6.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\opentk\\4.7.4\\opentk.4.7.4.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\opentk.compute\\4.7.4\\opentk.compute.4.7.4.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\opentk.core\\4.7.4\\opentk.core.4.7.4.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\opentk.graphics\\4.7.4\\opentk.graphics.4.7.4.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\opentk.input\\4.7.4\\opentk.input.4.7.4.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\opentk.mathematics\\4.7.4\\opentk.mathematics.4.7.4.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\opentk.openal\\4.7.4\\opentk.openal.4.7.4.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\opentk.redist.glfw\\3.3.7.27\\opentk.redist.glfw.3.3.7.27.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\opentk.windowing.common\\4.7.4\\opentk.windowing.common.4.7.4.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\opentk.windowing.desktop\\4.7.4\\opentk.windowing.desktop.4.7.4.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\opentk.windowing.graphicslibraryframework\\4.7.4\\opentk.windowing.graphicslibraryframework.4.7.4.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\sixlabors.imagesharp\\3.1.5\\sixlabors.imagesharp.3.1.5.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Warning As Error: Detected package downgrade: EduGraf.OpenGL.OpenTK from 1.1.6 to 1.1.2. Reference the package directly from the project to select a different version. \r\n U01 -> Utils -> EduGraf.OpenGL.OpenTK (>= 1.1.6) \r\n U01 -> EduGraf.OpenGL.OpenTK (>= 1.1.2)",
-      "libraryId": "EduGraf.OpenGL.OpenTK",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  "logs": []
 }
