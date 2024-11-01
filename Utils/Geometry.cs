@@ -55,11 +55,6 @@ public class Geometry
 
         return (point.Item1 + vector.Item1, point.Item2 + vector.Item2, point.Item3);
     }
-    public static (float, float, float) VectorRotate((float, float, float) point, (float, float, float) vector, (float, float, float) norm, float angle) {
-
-        Math.Sin(angle) * 
-        return (point.Item1 + vector.Item1, point.Item2 + vector.Item2, point.Item3);
-    }
 
     public static float[] Circle(float radius, (float, float, float) center, (float, float, float) norm) {
 
@@ -117,12 +112,12 @@ public class Vector
         return [x, y, z];
     }
     
-    public static Vector Rotate(Vertex point, Vector vector, Vector norm, float angle) {
-
-        vector * ((float)Math.Cos(angle)) + Math.Sin(angle) * 
-            
-        return (point.Item1 + vector.Item1, point.Item2 + vector.Item2, point.Item3);
-    }
+    // public static Vector Rotate(Vertex point, Vector vector, Vector norm, float angle) {
+    //
+    //     vector * ((float)Math.Cos(angle)) + Math.Sin(angle) * 
+    //         
+    //     return (point.Item1 + vector.Item1, point.Item2 + vector.Item2, point.Item3);
+    // }
     
     public static Vector operator *(Vector a, float scalar) {
 

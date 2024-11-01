@@ -262,7 +262,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "EduGraf.OpenGL.OpenTK": "1.1.2"
+          "EduGraf.OpenGL.OpenTK": "1.1.6"
         },
         "compile": {
           "bin/placeholder/Utils.dll": {}
@@ -539,19 +539,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\sambe\\.nuget\\packages\\": {}
+    "C:\\Users\\Simon\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sambe\\RiderProjects\\CompGraf\\U01\\U01.csproj",
+      "projectUniqueName": "C:\\Users\\Simon\\RiderProjects\\CompGra\\U01\\U01.csproj",
       "projectName": "U01",
-      "projectPath": "C:\\Users\\sambe\\RiderProjects\\CompGraf\\U01\\U01.csproj",
-      "packagesPath": "C:\\Users\\sambe\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sambe\\RiderProjects\\CompGraf\\U01\\obj\\",
+      "projectPath": "C:\\Users\\Simon\\RiderProjects\\CompGra\\U01\\U01.csproj",
+      "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Simon\\RiderProjects\\CompGra\\U01\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\sambe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -563,8 +563,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\sambe\\RiderProjects\\CompGraf\\Utils\\Utils.csproj": {
-              "projectPath": "C:\\Users\\sambe\\RiderProjects\\CompGraf\\Utils\\Utils.csproj"
+            "C:\\Users\\Simon\\RiderProjects\\CompGra\\Utils\\Utils.csproj": {
+              "projectPath": "C:\\Users\\Simon\\RiderProjects\\CompGra\\Utils\\Utils.csproj"
             }
           }
         }
@@ -608,5 +608,16 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1605",
+      "level": "Error",
+      "message": "Warning As Error: Detected package downgrade: EduGraf.OpenGL.OpenTK from 1.1.6 to 1.1.2. Reference the package directly from the project to select a different version. \r\n U01 -> Utils -> EduGraf.OpenGL.OpenTK (>= 1.1.6) \r\n U01 -> EduGraf.OpenGL.OpenTK (>= 1.1.2)",
+      "libraryId": "EduGraf.OpenGL.OpenTK",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

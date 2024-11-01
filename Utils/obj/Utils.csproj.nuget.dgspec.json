@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\sambe\\RiderProjects\\CompGraf\\Utils\\Utils.csproj": {}
+    "C:\\Users\\Simon\\RiderProjects\\CompGra\\Utils\\Utils.csproj": {}
   },
   "projects": {
-    "C:\\Users\\sambe\\RiderProjects\\CompGraf\\Utils\\Utils.csproj": {
+    "C:\\Users\\Simon\\RiderProjects\\CompGra\\Utils\\Utils.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\sambe\\RiderProjects\\CompGraf\\Utils\\Utils.csproj",
+        "projectUniqueName": "C:\\Users\\Simon\\RiderProjects\\CompGra\\Utils\\Utils.csproj",
         "projectName": "Utils",
-        "projectPath": "C:\\Users\\sambe\\RiderProjects\\CompGraf\\Utils\\Utils.csproj",
-        "packagesPath": "C:\\Users\\sambe\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\sambe\\RiderProjects\\CompGraf\\Utils\\obj\\",
+        "projectPath": "C:\\Users\\Simon\\RiderProjects\\CompGra\\Utils\\Utils.csproj",
+        "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Simon\\RiderProjects\\CompGra\\Utils\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\sambe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -45,7 +45,7 @@
           "dependencies": {
             "EduGraf.OpenGL.OpenTK": {
               "target": "Package",
-              "version": "[1.1.2, )"
+              "version": "[1.1.6, )"
             }
           },
           "imports": [

@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net8.0": {
-      "EduGraf/1.1.2": {
+      "EduGraf/1.1.5": {
         "type": "package",
         "dependencies": {
           "SixLabors.ImageSharp": "3.1.5"
@@ -14,10 +14,10 @@
           "lib/net8.0/EduGraf.dll": {}
         }
       },
-      "EduGraf.OpenGL/1.1.2": {
+      "EduGraf.OpenGL/1.1.6": {
         "type": "package",
         "dependencies": {
-          "EduGraf": "1.1.2",
+          "EduGraf": "1.1.5",
           "SixLabors.ImageSharp": "3.1.5"
         },
         "compile": {
@@ -27,11 +27,11 @@
           "lib/net8.0/EduGraf.OpenGL.dll": {}
         }
       },
-      "EduGraf.OpenGL.OpenTK/1.1.2": {
+      "EduGraf.OpenGL.OpenTK/1.1.6": {
         "type": "package",
         "dependencies": {
-          "EduGraf": "1.1.2",
-          "EduGraf.OpenGL": "1.1.2",
+          "EduGraf": "1.1.5",
+          "EduGraf.OpenGL": "1.1.6",
           "OpenTK": "4.7.4",
           "OpenTK.Graphics": "4.7.4"
         },
@@ -261,40 +261,40 @@
     }
   },
   "libraries": {
-    "EduGraf/1.1.2": {
-      "sha512": "9viUfq3bwLU+NL9sCGuyEA8OZSj05M7r5EX+ugJ7pS79rQDgvxJLyBuMZgDd5/X7eonEPgfq3kttHQuQvufIxQ==",
+    "EduGraf/1.1.5": {
+      "sha512": "d4WN/DL6KnNhprxa3qEHtPtupEJmC5uwk/+WI6UO1sGLunN6Ckwzjfnz/Hm8GUuzFCoIMqKMl2d72yrNV563Rw==",
       "type": "package",
-      "path": "edugraf/1.1.2",
+      "path": "edugraf/1.1.5",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "edugraf.1.1.2.nupkg.sha512",
+        "edugraf.1.1.5.nupkg.sha512",
         "edugraf.nuspec",
         "lib/net8.0/EduGraf.dll",
         "readme.md"
       ]
     },
-    "EduGraf.OpenGL/1.1.2": {
-      "sha512": "joxVHDq1M+2TyPSx8Xw2Bp9Xct4wCsCWX9TRjrnqXbIxi3B+8y6HWIwZPwUTJWM0QqaSuCSG2dUJSIMscpmAEQ==",
+    "EduGraf.OpenGL/1.1.6": {
+      "sha512": "rESx7W/LRX19ToCcecxiAbPNoG3hpPEnJMFwi0LKNrexau0vE9FCqdy4J66cQt6VnmPSIYNcLLJNgFj4u/yBGg==",
       "type": "package",
-      "path": "edugraf.opengl/1.1.2",
+      "path": "edugraf.opengl/1.1.6",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "edugraf.opengl.1.1.2.nupkg.sha512",
+        "edugraf.opengl.1.1.6.nupkg.sha512",
         "edugraf.opengl.nuspec",
         "lib/net8.0/EduGraf.OpenGL.dll",
         "readme.md"
       ]
     },
-    "EduGraf.OpenGL.OpenTK/1.1.2": {
-      "sha512": "7met4CIyU18ePmYBGEj8/mlzKZH/NWP5+gH5U4k20bE9G+vulJ/1flmVOFP9elFKvkJxvY73dAzo4Bn3RgQPfA==",
+    "EduGraf.OpenGL.OpenTK/1.1.6": {
+      "sha512": "gH1ZeU0hD6Dc/j5HvHphI5BDZuThCEB5yvF7UNgc/N/BxtspB5Wmc0HN1/GZiMhrMVt+SKOcT9h1ERe6SaKQug==",
       "type": "package",
-      "path": "edugraf.opengl.opentk/1.1.2",
+      "path": "edugraf.opengl.opentk/1.1.6",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "edugraf.opengl.opentk.1.1.2.nupkg.sha512",
+        "edugraf.opengl.opentk.1.1.6.nupkg.sha512",
         "edugraf.opengl.opentk.nuspec",
         "lib/net8.0/EduGraf.OpenGL.OpenTK.dll",
         "readme.md"
@@ -516,23 +516,23 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "EduGraf.OpenGL.OpenTK >= 1.1.2"
+      "EduGraf.OpenGL.OpenTK >= 1.1.6"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\sambe\\.nuget\\packages\\": {}
+    "C:\\Users\\Simon\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sambe\\RiderProjects\\CompGraf\\Utils\\Utils.csproj",
+      "projectUniqueName": "C:\\Users\\Simon\\RiderProjects\\CompGra\\Utils\\Utils.csproj",
       "projectName": "Utils",
-      "projectPath": "C:\\Users\\sambe\\RiderProjects\\CompGraf\\Utils\\Utils.csproj",
-      "packagesPath": "C:\\Users\\sambe\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sambe\\RiderProjects\\CompGraf\\Utils\\obj\\",
+      "projectPath": "C:\\Users\\Simon\\RiderProjects\\CompGra\\Utils\\Utils.csproj",
+      "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Simon\\RiderProjects\\CompGra\\Utils\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\sambe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -563,7 +563,7 @@
         "dependencies": {
           "EduGraf.OpenGL.OpenTK": {
             "target": "Package",
-            "version": "[1.1.2, )"
+            "version": "[1.1.6, )"
           }
         },
         "imports": [
