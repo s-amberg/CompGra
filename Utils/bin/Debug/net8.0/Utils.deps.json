@@ -9,7 +9,7 @@
       "Utils/1.0.0": {
         "dependencies": {
           "EduGraf": "1.1.9",
-          "EduGraf.OpenGL.OpenTK": "1.1.6"
+          "EduGraf.OpenGL.OpenTK": "1.1.10"
         },
         "runtime": {
           "Utils.dll": {}
@@ -26,29 +26,29 @@
           }
         }
       },
-      "EduGraf.OpenGL/1.1.6": {
+      "EduGraf.OpenGL/1.1.10": {
         "dependencies": {
           "EduGraf": "1.1.9",
           "SixLabors.ImageSharp": "3.1.5"
         },
         "runtime": {
           "lib/net8.0/EduGraf.OpenGL.dll": {
-            "assemblyVersion": "1.1.6.0",
-            "fileVersion": "1.1.6.0"
+            "assemblyVersion": "1.1.10.0",
+            "fileVersion": "1.1.10.0"
           }
         }
       },
-      "EduGraf.OpenGL.OpenTK/1.1.6": {
+      "EduGraf.OpenGL.OpenTK/1.1.10": {
         "dependencies": {
           "EduGraf": "1.1.9",
-          "EduGraf.OpenGL": "1.1.6",
+          "EduGraf.OpenGL": "1.1.10",
           "OpenTK": "4.7.4",
           "OpenTK.Graphics": "4.7.4"
         },
         "runtime": {
           "lib/net8.0/EduGraf.OpenGL.OpenTK.dll": {
-            "assemblyVersion": "1.1.6.0",
-            "fileVersion": "1.1.6.0"
+            "assemblyVersion": "1.1.10.0",
+            "fileVersion": "1.1.10.0"
           }
         }
       },
@@ -215,19 +215,19 @@
       "path": "edugraf/1.1.9",
       "hashPath": "edugraf.1.1.9.nupkg.sha512"
     },
-    "EduGraf.OpenGL/1.1.6": {
+    "EduGraf.OpenGL/1.1.10": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-rESx7W/LRX19ToCcecxiAbPNoG3hpPEnJMFwi0LKNrexau0vE9FCqdy4J66cQt6VnmPSIYNcLLJNgFj4u/yBGg==",
-      "path": "edugraf.opengl/1.1.6",
-      "hashPath": "edugraf.opengl.1.1.6.nupkg.sha512"
+      "sha512": "sha512-rAXDwp+VmiFqkRKrBbmgWtge70tDwTJ2kO1WiFhkm05BSj4wJo15ajRqdOdp4vO5IB2HTs3cB7ewNqAp+s+t+w==",
+      "path": "edugraf.opengl/1.1.10",
+      "hashPath": "edugraf.opengl.1.1.10.nupkg.sha512"
     },
-    "EduGraf.OpenGL.OpenTK/1.1.6": {
+    "EduGraf.OpenGL.OpenTK/1.1.10": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-gH1ZeU0hD6Dc/j5HvHphI5BDZuThCEB5yvF7UNgc/N/BxtspB5Wmc0HN1/GZiMhrMVt+SKOcT9h1ERe6SaKQug==",
-      "path": "edugraf.opengl.opentk/1.1.6",
-      "hashPath": "edugraf.opengl.opentk.1.1.6.nupkg.sha512"
+      "sha512": "sha512-y6tTezITczBoaBbXt0Qg7fm982lQZkzQ9O6H8qPT6B67UCNBCiYYsHfIWCGsx5yuo66L9kinra8A9lkci2FYCw==",
+      "path": "edugraf.opengl.opentk/1.1.10",
+      "hashPath": "edugraf.opengl.opentk.1.1.10.nupkg.sha512"
     },
     "OpenTK/4.7.4": {
       "type": "package",

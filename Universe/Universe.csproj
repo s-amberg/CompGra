@@ -21,6 +21,8 @@
     <ItemGroup>
       <None Remove="resources\earthmap.jpg" />
       <EmbeddedResource Include="resources\earthmap.jpg" />
+      <None Remove="resources\cities.png" />
+      <EmbeddedResource Include="resources\cities.png" />
     </ItemGroup>
 
 </Project>

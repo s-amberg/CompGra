@@ -2,6 +2,7 @@
 using EduGraf;
 using EduGraf.Cameras;
 using EduGraf.Lighting;
+using EduGraf.OpenGL;
 using EduGraf.OpenGL.OpenTK;
 using EduGraf.Shapes;
 using EduGraf.Tensors;
@@ -23,12 +24,12 @@ public class UniverseRendering : Rendering
     private Planet _moon;
     private Visual _earthSystem;
     private float _rotation;
-    private Graphic _graphic;
+    private GlGraphic _graphic;
     private Camera _camera;
     private long _lastUpdate = DateTime.Now.Ticks;
     private Parameters _parameters;
         
-    public UniverseRendering(Graphic graphic, Camera camera, Parameters parameters)
+    public UniverseRendering(GlGraphic graphic, Camera camera, Parameters parameters)
         : base(graphic, new Color3(0, 0, 0))
     {
         _graphic = graphic;
@@ -55,27 +56,25 @@ public class UniverseRendering : Rendering
         
     }
     
-    private Planet GetEarth(Graphic graphic, Camera camera) {
+    private Planet GetEarth(GlGraphic graphic, Camera camera) {
         float center = (float)(PlanetCalc.CenterDistance(Constants.Moon.distance - Constants.Earth.distance, Constants.Earth, Constants.Moon) / Constants.Earth.diameter);
-        Console.WriteLine("center: " + center);
 
         var spherePosition = new Point3(-center, 0, 0);
         var transformation = Matrix4.Scale(Scale) * Matrix4.Translation(spherePosition.Vector);
-        Assembly myAssembly = Assembly.GetExecutingAssembly();
-        Stream myStream = myAssembly.GetManifestResourceStream( "Universe.resources.earthmap.jpg" );
-        Image<Rgba32>? bmp = Image.Load<Rgba32>( myStream );
-        if (bmp == null) throw new Exception("texture not found");
-        bmp.Mutate(context => context.Flip(FlipMode.Vertical)); // switch orientation, if necessary
-        var texture = Graphic.CreateTexture(bmp);
-        var material = new ColorTextureMaterial(0, 0, texture);
-        return new Planet(graphic, camera, transformation, Constants.Earth, material);
+        Image<Rgba32>? earthMap = TextureLoader.LoadImage("Universe.resources.earthmap.jpg");
+        Image<Rgba32>? cities = TextureLoader.LoadImage("Universe.resources.cities.png");
+        if (earthMap == null || cities == null) throw new Exception("texture not found");
+        earthMap.Mutate(context => context.Flip(FlipMode.Vertical)); // switch orientation, if necessary
+        cities.Mutate(context => context.Flip(FlipMode.Vertical)); // switch orientation, if necessary
+        GlTextureHandle earthMapTexture = Graphic.CreateTexture(earthMap) as GlTextureHandle;
+        GlTextureHandle citiesTexture = Graphic.CreateTexture(cities) as GlTextureHandle;
+        return new Planet(graphic, camera, transformation, Constants.Earth, null, new ColorTextureShading(graphic, earthMapTexture, citiesTexture));
     }
-    private Planet GetMoon(Graphic graphic, Camera camera)
+    private Planet GetMoon(GlGraphic graphic, Camera camera)
     {
         float distance = (float)(Constants.Moon.distance / Constants.Earth.diameter);
         float center = (float)(PlanetCalc.CenterDistance(Constants.Moon.distance - Constants.Earth.distance, Constants.Earth, Constants.Moon) / Constants.Earth.diameter);
         var scale = (float)(Constants.Moon.diameter / Constants.Earth.diameter);
-        Console.WriteLine("distance: " + distance + "center: " + center + "scale: " + scale);
         var spherePosition = new Point3((distance - center), 0, 0);
         var transformation = Matrix4.Scale(scale * Scale) * Matrix4.Translation(spherePosition.Vector);
 

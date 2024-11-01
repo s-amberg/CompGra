@@ -9,7 +9,7 @@
 
     <ItemGroup>
       <PackageReference Include="EduGraf" Version="1.1.9" />
-      <PackageReference Include="EduGraf.OpenGL.OpenTK" Version="1.1.6" />
+      <PackageReference Include="EduGraf.OpenGL.OpenTK" Version="1.1.10" />
     </ItemGroup>
 
 </Project>

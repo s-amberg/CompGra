@@ -263,7 +263,7 @@
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "EduGraf": "1.1.9",
-          "EduGraf.OpenGL.OpenTK": "1.1.6"
+          "EduGraf.OpenGL.OpenTK": "1.1.10"
         },
         "compile": {
           "bin/placeholder/Utils.dll": {}

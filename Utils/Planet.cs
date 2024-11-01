@@ -2,8 +2,10 @@ using EduGraf;
 using EduGraf.Cameras;
 using EduGraf.Geometries;
 using EduGraf.Lighting;
+using EduGraf.OpenGL;
 using EduGraf.Shapes;
 using EduGraf.Tensors;
+using Universe;
 
 namespace Utils;
 
@@ -18,31 +20,31 @@ public class Planet
     private Matrix4 _rotateFromOrigin;
 
     public VisualPart _body;
-    private Graphic graphic;
+    private GlGraphic graphic;
     private Camera camera;
 
-    private VisualPart CreateSphere(Material? material = null)
+    private VisualPart CreateSphere(Material? material = null, GlShading? shader = null)
     {
 
         var resolution = 20;
         var color = new Color3(0.2f, 1f, 0.3f);
         var planetMaterial = material ?? new UniformMaterial(0.5f, 0.1f, color);
-        var sunlight = new ParallelLight(new Color3(1, 1, 1), new(0, 0, -1000));
-        var shading = graphic.CreateShading("emissive", planetMaterial, sunlight);
+        var sunlight = new ParallelLight(new Color3(1, 1, 1), new(0, 0, -100000));
+        var shading = shader ?? graphic.CreateShading("emissive", planetMaterial, sunlight);;
         var positions = Sphere.GetPositions(resolution, resolution);
         var triangles = Sphere.GetTriangles(resolution, resolution);
         var textureUvs = Sphere.GetTextureUvs(resolution, resolution);
         var geometry = EduGraf.Geometries.Geometry.CreateWithUv(positions, positions, textureUvs, triangles);
         
         var surface = graphic.CreateSurface(shading, geometry);
-        var plane = graphic.CreateVisual("plane", surface);
-        return plane;
+        var sphere = graphic.CreateVisual("sphere", surface);
+        return sphere;
     }
 
-    public Planet(Graphic graphic, Camera camera, Matrix4 transformation, PlanetInfo info, Material? material = null) {
+    public Planet(GlGraphic graphic, Camera camera, Matrix4 transformation, PlanetInfo info, Material? material = null, GlShading? shader = null) {
         (this.graphic, this.camera, Info, _baseTransformation) = (graphic, camera, info, transformation);
 
-        _body = CreateSphere(material);
+        _body = CreateSphere(material, shader);
         _rotateToOrigin = Matrix4.RotationX(- Info.xTilt) * Matrix4.RotationZ(- Info.zTilt);
         _rotateFromOrigin = Matrix4.RotationX(Info.xTilt) * Matrix4.RotationZ(Info.zTilt);
 
