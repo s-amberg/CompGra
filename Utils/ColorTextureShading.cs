@@ -53,15 +53,9 @@ public class ColorTextureShading : GlShading
         float i = normalize(worldNormal).z;
         if (i > 0) fragment = i * texture(mapTextureUnit, textureUv);
         else fragment = vec4(0, 0, 0, 1);
-        if (i <= 0.25f) {
-            fragment = min(vec4(1, 1, 1, 1), fragment + (1/abs((i+0.25f)*3))*texture(lightsTextureUnit, textureUv));
+        if (i <= 0.5f) {
+            fragment = min(vec4(1, 1, 1, 1), fragment + (-0.8 * pow(i + 0.6, 2) + 1) *texture(lightsTextureUnit, textureUv));
         }
-        //if (i <= 0.25f) {
-        //    if(vec4(1, 1, 1, 1) >=  fragment + (1/i)*texture(lightsTextureUnit, textureUv)) {
-        //        fragment = fragment + (1/i)*texture(lightsTextureUnit, textureUv);
-        //    }
-        //    else fragment = vec4(1, 1, 1, 1);
-        //}
     }";
 
 }
