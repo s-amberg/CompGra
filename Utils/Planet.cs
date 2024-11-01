@@ -22,22 +22,27 @@ public class Planet
     private Graphic graphic;
     private Camera camera;
 
-    private VisualPart CreateSphere() {
-        
-        var color = new Color4(0.2f, 1f, 0.3f, 1);
-        var shading = graphic.CreateShading([], [ new EmissiveUniformMaterial(color)], camera);
-        var positions = Sphere.GetPositions(10, 10);
-        var triangles = Sphere.GetTriangles(10, 10);
-        var geometry = EduGraf.Geometries.Geometry.Create(positions, triangles);
+    private VisualPart CreateSphere(Material? material = null)
+    {
+
+        var resolution = 20;
+        var color = new Color3(0.2f, 1f, 0.3f);
+        var planetMaterial = material ?? new UniformMaterial(0.5f, 0.1f, color);
+        var light = new AmbientLight(new Color3(1, 1, 1));
+        var shading = graphic.CreateShading("emissive", planetMaterial, light);
+        var positions = Sphere.GetPositions(resolution, resolution);
+        var triangles = Sphere.GetTriangles(resolution, resolution);
+        var textureUvs = Sphere.GetTextureUvs(resolution, resolution);
+        var geometry = EduGraf.Geometries.Geometry.CreateWithUv(positions, positions, textureUvs, triangles);
         
         var surface = graphic.CreateSurface(shading, geometry);
         var plane = graphic.CreateVisual("plane", surface);
         return plane;
     }
 
-    public Planet(Graphic graphic, Camera camera, Matrix4 transformation, float xTilt = 0, float zTilt = 0) {
+    public Planet(Graphic graphic, Camera camera, Matrix4 transformation, float xTilt = 0, float zTilt = 0, Material? material = null) {
         (this.graphic, this.camera, _axisXTilt, _axisZTilt, _baseTransformation) = (graphic, camera, xTilt, zTilt, transformation);
-        _body = CreateSphere();
+        _body = CreateSphere(material);
         _rotateToOrigin = Matrix4.RotationX(- _axisXTilt) * Matrix4.RotationZ(- _axisZTilt);
         _rotateFromOrigin = Matrix4.RotationX(_axisXTilt) * Matrix4.RotationZ(_axisZTilt);
 

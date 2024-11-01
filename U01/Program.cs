@@ -1,8 +1,9 @@
 ﻿using EduGraf;
 using EduGraf.Cameras;
-using EduGraf.Tensors;
+using EduGraf.Geometries;
 using EduGraf.Lighting;
 using EduGraf.OpenGL.OpenTK;
+using EduGraf.Tensors;
 using EduGraf.UI;
 using Utils;
 using Geometry = EduGraf.Geometries.Geometry;
@@ -19,11 +20,12 @@ public class TriangleRendering(Graphic graphic, OrbitCamera camera)
 
     public override void OnLoad(Window window)
     {
-        var material = new EmissiveUniformMaterial(new Color4(1, 0, 0, 1));
-        var shading = Graphic.CreateShading([], [ material ], camera);
+        var material = new UniformMaterial(0.5f, 0.1f, new Color3(1, 0, 0));
+        var light = new AmbientLight(new Color3(1, 1, 1));
+        var shading = Graphic.CreateShading("emissive", material, light);
         var geometry = Geometry.Create(Utils.Geometry.Tetraeder(Positions));
         var surface = Graphic.CreateSurface(shading, geometry);
-        var triangle = Graphic.CreateVisual("", surface);
+        var triangle = Graphic.CreateVisual("x", surface);
         Scene.Add(triangle);
     }
 }
@@ -32,8 +34,9 @@ public class CuboidRendering(Graphic graphic, OrbitCamera camera)
 {
     public override void OnLoad(Window window)
     {
-        var material = new EmissiveUniformMaterial(new Color4(1, 0, 0, 1));
-        var shading = Graphic.CreateShading([], [ material ], camera);
+        var material = new UniformMaterial(0.5f, 0.1f, new Color3(1, 0, 0));
+        var light = new AmbientLight(new Color3(1, 1, 1));
+        var shading = graphic.CreateShading("emissive", material, light);
         var geometry = Geometry.Create(Utils.Geometry.Cuboid(Positions));
         var surface = Graphic.CreateSurface(shading, geometry);
         var triangle = Graphic.CreateVisual("", surface);
@@ -53,17 +56,17 @@ public class CuboidRendering(Graphic graphic, OrbitCamera camera)
     ];
 }
 
-public class CircleRendering(Graphic graphic, OrbitCamera camera) 
+public class CircleRendering(Graphic graphic) 
     : Rendering(graphic, new Color3(0.2f, 0, 0.2f))
 {
     public override void OnLoad(Window window)
     {
-        var material = new EmissiveUniformMaterial(new Color4(1, 0, 0, 1));
-        var shading = Graphic.CreateShading([], [ material ], camera);
+        var light = new AmbientLight(new(1, 1, 1));
+        var material = new UniformMaterial(0, 0, new Color3(1, 0, 0));
+        var shading = Graphic.CreateShading("emissive", material, light);
         var geometry = Geometry.Create(Utils.Geometry.Circle(2, (0, 0, 0), (2, 1, 1)));
-        Console.WriteLine("number of coordinates:" + geometry.Count);
         var surface = Graphic.CreateSurface(shading, geometry);
-        var triangle = Graphic.CreateVisual("", surface);
+        var triangle = Graphic.CreateVisual("circle", surface);
         Scene.Add(triangle);
     }
 }
@@ -74,8 +77,8 @@ static class Program
     {
         var graphic = new OpenTkGraphic();
         var camera = new OrbitCamera(new Point3(1, -2, -2),  Point3.Origin);
-        var rendering = new CircleRendering(graphic, camera);
+        var rendering = new CircleRendering(graphic);
         using var window = new OpenTkWindow("U01", graphic, 700, 700, camera.Handle);
-        window.Show(rendering);
+        window.Show(rendering, camera);
     }
 }

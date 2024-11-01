@@ -51,7 +51,15 @@
           "dependencies": {
             "EduGraf": {
               "target": "Package",
-              "version": "[1.1.5, )"
+              "version": "[1.1.9, )"
+            },
+            "EduGraf.OpenGL": {
+              "target": "Package",
+              "version": "[1.1.10, )"
+            },
+            "EduGraf.OpenGL.OpenTK": {
+              "target": "Package",
+              "version": "[1.1.10, )"
             },
             "Utils": {
               "target": "Package",
@@ -119,6 +127,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "EduGraf": {
+              "target": "Package",
+              "version": "[1.1.9, )"
+            },
             "EduGraf.OpenGL.OpenTK": {
               "target": "Package",
               "version": "[1.1.6, )"

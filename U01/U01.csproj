@@ -8,11 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="EduGraf.OpenGL.OpenTK" Version="1.1.6" />
+      <ProjectReference Include="..\Utils\Utils.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Utils\Utils.csproj" />
+      <PackageReference Include="EduGraf" Version="1.1.9" />
+      <PackageReference Include="EduGraf.OpenGL" Version="1.1.10" />
+      <PackageReference Include="EduGraf.OpenGL.OpenTK" Version="1.1.10" />
     </ItemGroup>
 
 </Project>

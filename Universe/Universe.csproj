@@ -8,12 +8,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="EduGraf" Version="1.1.5" />
+        <PackageReference Include="EduGraf" Version="1.1.9" />
+        <PackageReference Include="EduGraf.OpenGL" Version="1.1.10" />
+        <PackageReference Include="EduGraf.OpenGL.OpenTK" Version="1.1.10" />
         <PackageReference Include="Utils"/>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Utils\Utils.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="resources\earthmap.jpg" />
+      <EmbeddedResource Include="resources\earthmap.jpg" />
     </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "qF0+0Lqs51lEyC+Pd46idzUvtvGY4+8GNP+GvPZsPWpWSUJcYj9olKkhA/gzMy6aAKHKj3NkZHMEOId1Q8r9hg==",
+  "dgSpecHash": "0f7OUWQBtxiitR+hE8isNUq0SyNMFGSQrDcuWkhcP9FLsMUaG3fTuPjDVhcsDFLd3qU62xpNIUAmHfqH21BkCw==",
   "success": true,
   "projectFilePath": "T:\\sambe\\Documents\\VisualStudioProjects\\CompGra\\Utils\\Utils.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\sambe\\.nuget\\packages\\edugraf\\1.1.5\\edugraf.1.1.5.nupkg.sha512",
+    "C:\\Users\\sambe\\.nuget\\packages\\edugraf\\1.1.9\\edugraf.1.1.9.nupkg.sha512",
     "C:\\Users\\sambe\\.nuget\\packages\\edugraf.opengl\\1.1.6\\edugraf.opengl.1.1.6.nupkg.sha512",
     "C:\\Users\\sambe\\.nuget\\packages\\edugraf.opengl.opentk\\1.1.6\\edugraf.opengl.opentk.1.1.6.nupkg.sha512",
     "C:\\Users\\sambe\\.nuget\\packages\\opentk\\4.7.4\\opentk.4.7.4.nupkg.sha512",

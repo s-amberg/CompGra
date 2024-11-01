@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net8.0": {
-      "EduGraf/1.1.5": {
+      "EduGraf/1.1.9": {
         "type": "package",
         "dependencies": {
           "SixLabors.ImageSharp": "3.1.5"
@@ -14,10 +14,10 @@
           "lib/net8.0/EduGraf.dll": {}
         }
       },
-      "EduGraf.OpenGL/1.1.6": {
+      "EduGraf.OpenGL/1.1.10": {
         "type": "package",
         "dependencies": {
-          "EduGraf": "1.1.5",
+          "EduGraf": "1.1.9",
           "SixLabors.ImageSharp": "3.1.5"
         },
         "compile": {
@@ -27,11 +27,11 @@
           "lib/net8.0/EduGraf.OpenGL.dll": {}
         }
       },
-      "EduGraf.OpenGL.OpenTK/1.1.6": {
+      "EduGraf.OpenGL.OpenTK/1.1.10": {
         "type": "package",
         "dependencies": {
-          "EduGraf": "1.1.5",
-          "EduGraf.OpenGL": "1.1.6",
+          "EduGraf": "1.1.9",
+          "EduGraf.OpenGL": "1.1.10",
           "OpenTK": "4.7.4",
           "OpenTK.Graphics": "4.7.4"
         },
@@ -261,40 +261,40 @@
     }
   },
   "libraries": {
-    "EduGraf/1.1.5": {
-      "sha512": "d4WN/DL6KnNhprxa3qEHtPtupEJmC5uwk/+WI6UO1sGLunN6Ckwzjfnz/Hm8GUuzFCoIMqKMl2d72yrNV563Rw==",
+    "EduGraf/1.1.9": {
+      "sha512": "N+/ABLQqlyA643xMRcKapPrqr6A+pP5JMqYfaURSSo9oJi/OMG5+GeF9zKWlZyBGe4hOCHMOG4WOqHGrQYjDuw==",
       "type": "package",
-      "path": "edugraf/1.1.5",
+      "path": "edugraf/1.1.9",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "edugraf.1.1.5.nupkg.sha512",
+        "edugraf.1.1.9.nupkg.sha512",
         "edugraf.nuspec",
         "lib/net8.0/EduGraf.dll",
         "readme.md"
       ]
     },
-    "EduGraf.OpenGL/1.1.6": {
-      "sha512": "rESx7W/LRX19ToCcecxiAbPNoG3hpPEnJMFwi0LKNrexau0vE9FCqdy4J66cQt6VnmPSIYNcLLJNgFj4u/yBGg==",
+    "EduGraf.OpenGL/1.1.10": {
+      "sha512": "rAXDwp+VmiFqkRKrBbmgWtge70tDwTJ2kO1WiFhkm05BSj4wJo15ajRqdOdp4vO5IB2HTs3cB7ewNqAp+s+t+w==",
       "type": "package",
-      "path": "edugraf.opengl/1.1.6",
+      "path": "edugraf.opengl/1.1.10",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "edugraf.opengl.1.1.6.nupkg.sha512",
+        "edugraf.opengl.1.1.10.nupkg.sha512",
         "edugraf.opengl.nuspec",
         "lib/net8.0/EduGraf.OpenGL.dll",
         "readme.md"
       ]
     },
-    "EduGraf.OpenGL.OpenTK/1.1.6": {
-      "sha512": "gH1ZeU0hD6Dc/j5HvHphI5BDZuThCEB5yvF7UNgc/N/BxtspB5Wmc0HN1/GZiMhrMVt+SKOcT9h1ERe6SaKQug==",
+    "EduGraf.OpenGL.OpenTK/1.1.10": {
+      "sha512": "y6tTezITczBoaBbXt0Qg7fm982lQZkzQ9O6H8qPT6B67UCNBCiYYsHfIWCGsx5yuo66L9kinra8A9lkci2FYCw==",
       "type": "package",
-      "path": "edugraf.opengl.opentk/1.1.6",
+      "path": "edugraf.opengl.opentk/1.1.10",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "edugraf.opengl.opentk.1.1.6.nupkg.sha512",
+        "edugraf.opengl.opentk.1.1.10.nupkg.sha512",
         "edugraf.opengl.opentk.nuspec",
         "lib/net8.0/EduGraf.OpenGL.OpenTK.dll",
         "readme.md"
@@ -516,7 +516,8 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "EduGraf.OpenGL.OpenTK >= 1.1.6"
+      "EduGraf >= 1.1.9",
+      "EduGraf.OpenGL.OpenTK >= 1.1.10"
     ]
   },
   "packageFolders": {
@@ -564,9 +565,13 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "EduGraf": {
+            "target": "Package",
+            "version": "[1.1.9, )"
+          },
           "EduGraf.OpenGL.OpenTK": {
             "target": "Package",
-            "version": "[1.1.6, )"
+            "version": "[1.1.10, )"
           }
         },
         "imports": [

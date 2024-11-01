@@ -32,10 +32,12 @@ public class RollingSphereRendering : Rendering
         ]);
     }
 
-    private static VisualPart GetPlane(Graphic graphic, Camera camera)
+    private VisualPart GetPlane(Graphic graphic, Camera camera)
     {
-        var color = new Color4(0.2f, 0.2f, 0.3f, 1);
-        var shading = graphic.CreateShading([], [ new EmissiveUniformMaterial(color)], camera);
+        var color = new Color3(0.2f, 0.2f, 0.3f);
+        var light = new AmbientLight(new(1, 1, 1));
+        var material = new UniformMaterial(0, 0, color);
+        var shading = Graphic.CreateShading("emissive", material, light);
         var positions = Patch.GetPositions(1, 1, (_, _) => 0);
         var triangles = Patch.GetTriangles(1, 1);
         var geometry = Geometry.Create(positions, triangles);
@@ -44,10 +46,12 @@ public class RollingSphereRendering : Rendering
         return plane;
     }
 
-    private static VisualPart GetSphere(Graphic graphic, Camera camera)
+    private VisualPart GetSphere(Graphic graphic, Camera camera)
     {
-        var color = new Color4(0.8f, 1, 0.8f, 1);
-        var shading = graphic.CreateShading([], [new EmissiveUniformMaterial(color)], camera);
+        var color = new Color3(0.8f, 1, 0.8f);
+        var light = new AmbientLight(new(1, 1, 1));
+        var material = new UniformMaterial(0, 0, color);
+        var shading = Graphic.CreateShading("emissive", material, light);
         var positions = Sphere.GetPositions(10, 10);
         var triangles = Sphere.GetTriangles(10, 10);
         var geometry = Geometry.Create(positions, triangles);
@@ -67,6 +71,6 @@ public class RollingSphereRendering : Rendering
 
         _sphere.Transform = Matrix4.Scale(Scale) *
                             Matrix4.RotationZ(_sphereAngle)*
-                            Matrix4.Translation4(_spherePosition.Vector);
+                            Matrix4.Translation(_spherePosition.Vector);
     }
 }
