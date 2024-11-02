@@ -1,4 +1,5 @@
 using EduGraf.OpenGL;
+using EduGraf.Tensors;
 
 namespace Universe;
 
@@ -12,7 +13,8 @@ public class ColorTextureShading : GlShading
     {
         DoInContext(() =>
         {
-            
+            Set("lightPosition", Point3.Origin);
+            Set("lightColor", new Color3(1, 1, 1));
         });
     }
 
@@ -24,6 +26,7 @@ public class ColorTextureShading : GlShading
     uniform mat4 Model;
     uniform mat4 View;
     uniform mat4 Projection;
+    out vec3 surfacePosition;
 
     in vec2 TextureUv;
     out vec2 textureUv;
@@ -36,6 +39,7 @@ public class ColorTextureShading : GlShading
 	    vec4 worldPos = vec4(Position, 1.0) * Model;
         worldNormal = Normal * mat3(Model);
 	    gl_Position = worldPos * View * Projection;
+        surfacePosition = vec3(worldPos);
         textureUv = TextureUv;
     }";
 
@@ -44,13 +48,18 @@ public class ColorTextureShading : GlShading
 
     in vec3 worldNormal;
     in vec2 textureUv;
+    in vec3 surfacePosition;
+    uniform vec3 lightPosition;
+    uniform vec3 lightColor;
     uniform sampler2D mapTextureUnit;
     uniform sampler2D lightsTextureUnit;
     out vec4 fragment;
 
     void main(void)
     {
-        float i = normalize(worldNormal).z;
+        vec3 normDir = normalize(worldNormal);
+        vec3 lightDir = normalize(lightPosition - surfacePosition);
+        float i = max(dot(normDir, lightDir), 0.0);
         if (i > 0) fragment = i * texture(mapTextureUnit, textureUv);
         else fragment = vec4(0, 0, 0, 1);
         if (i <= 0.5f) {

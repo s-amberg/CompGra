@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using ClassLibrary1;
 using EduGraf;
 using EduGraf.Cameras;
 using EduGraf.Lighting;
@@ -20,9 +21,10 @@ public class UniverseRendering : Rendering
     const int Scale = 2;
     private const float Velocity = 2 * MathF.PI / (60 * TimeSpan.TicksPerSecond);
 
+    private Planet _sun;
     private Planet _earth;
     private Planet _moon;
-    private Visual _earthSystem;
+    private CelestialSystem _earthSystem;
     private float _rotation;
     private GlGraphic _graphic;
     private Camera _camera;
@@ -37,27 +39,8 @@ public class UniverseRendering : Rendering
         _parameters = parameters;
     }
     
-    public override void OnLoad(Window window)
-    {
-        _earth = GetEarth(_graphic, _camera);        
-        _moon = GetMoon(_graphic, _camera);        
-        var plane = GetPlane(_graphic, _camera);
-       
-        Scene.AddRange(
-        [
-            _earth._body,
-          plane.Scale(10 * Scale)
-        ]);
-        
-        _earthSystem = Graphic.CreateGroup("system");
-        Scene.Add(_earthSystem);
-        _earthSystem.Add(_earth._body);
-        _earthSystem.Add(_moon._body);
-        
-    }
-    
     private Planet GetEarth(GlGraphic graphic, Camera camera) {
-        float center = (float)(PlanetCalc.CenterDistance(Constants.Moon.distance - Constants.Earth.distance, Constants.Earth, Constants.Moon) / Constants.Earth.diameter);
+        float center = PlanetCalc.ToScale(PlanetCalc.CenterDistance(Constants.Moon.distance - Constants.Earth.distance, Constants.Earth, Constants.Moon));
 
         var spherePosition = new Point3(-center, 0, 0);
         var transformation = Matrix4.Scale(Scale) * Matrix4.Translation(spherePosition.Vector);
@@ -70,11 +53,24 @@ public class UniverseRendering : Rendering
         GlTextureHandle citiesTexture = Graphic.CreateTexture(cities) as GlTextureHandle;
         return new Planet(graphic, camera, transformation, Constants.Earth, null, new ColorTextureShading(graphic, earthMapTexture, citiesTexture));
     }
+    
+    private Planet GetSun(GlGraphic graphic, Camera camera) {
+        var spherePosition = new Point3(0, 0, 0);
+        var scale = PlanetCalc.ToScale(Constants.Sun.diameter) / 100; //todo: fix scale
+        var transformation = Matrix4.Scale(scale * Scale) * Matrix4.Translation(spherePosition.Vector);
+        var color = new Color3(1f, 0.9f, 0f);
+        var material = new UniformMaterial(0.4f, 0.7f, color);
+        var light = new AmbientLight(new Color3(1, 1, 1));
+        var shading = graphic.CreateShading("emissive", material, light);
+        return new Planet(graphic, camera, transformation, Constants.Sun, null, shading);
+    }
+    
+    
     private Planet GetMoon(GlGraphic graphic, Camera camera)
     {
-        float distance = (float)(Constants.Moon.distance / Constants.Earth.diameter);
-        float center = (float)(PlanetCalc.CenterDistance(Constants.Moon.distance - Constants.Earth.distance, Constants.Earth, Constants.Moon) / Constants.Earth.diameter);
-        var scale = (float)(Constants.Moon.diameter / Constants.Earth.diameter);
+        float distance = PlanetCalc.ToScale(Constants.Moon.distance - Constants.Earth.distance);
+        float center = PlanetCalc.ToScale(PlanetCalc.CenterDistance(distance, Constants.Earth, Constants.Moon));
+        var scale = PlanetCalc.ToScale(Constants.Moon.diameter);
         var spherePosition = new Point3((distance - center), 0, 0);
         var transformation = Matrix4.Scale(scale * Scale) * Matrix4.Translation(spherePosition.Vector);
 
@@ -96,6 +92,39 @@ public class UniverseRendering : Rendering
         return plane;
     }
 
+    private static VisualPart GetGrid(Graphic graphic, Camera camera, float[] positions)
+    {
+        var color = new Color3(0.2f, 0.2f, 0.3f);
+        var material = new UniformMaterial(0.5f, 0.1f, color);
+        var light = new AmbientLight(new Color3(1, 1, 1));
+        var shading = graphic.CreateShading("emissive", material, light);
+        var geometry = Geometry.Create(positions);
+        var surface = graphic.CreateSurface(shading, geometry);
+        var plane = graphic.CreateVisual("plane", surface);
+        return plane;
+    }
+    
+    public override void OnLoad(Window window)
+    {
+        _sun = GetSun(_graphic, _camera);        
+        _earth = GetEarth(_graphic, _camera);        
+        _moon = GetMoon(_graphic, _camera);        
+        var planeX = GetGrid(_graphic, _camera, Utils.Geometry.Rectangle([new Vertex(10, -1, 0), new Vertex(10, 0, 0), new Vertex(-10, -1, 0), new Vertex(-10, 0, 0)]));
+        var planeZ = GetGrid(_graphic, _camera, Utils.Geometry.Rectangle([new Vertex( 0, -1, 10), new Vertex(0, 0, 10), new Vertex( 0, -1, -10), new Vertex(0, 0, -10)]));
+       
+        Scene.AddRange(
+        [
+            _sun._body,
+            planeX, planeZ
+        ]);
+        
+        var earthSystem = Graphic.CreateGroup("earth_system");
+        Scene.Add(earthSystem);
+        earthSystem.Add(_earth._body);
+        earthSystem.Add(_moon._body);
+        _earthSystem = new CelestialSystem(earthSystem);
+
+    }
 
     protected override void OnUpdateFrame(Window window)
     {
@@ -107,10 +136,22 @@ public class UniverseRendering : Rendering
         var deltaAngle = currentVelocity * (now - _lastUpdate);
         _lastUpdate = now;
         _rotation += deltaAngle;
-
+        
+        
+        var translateEarthSystem = Matrix4.Translation(new Vector3(PlanetCalc.ToScale(Constants.Earth.distance / 200), 0, 0));
+        var rotateEarthSystem = Matrix4.RotationY((float)_earthSystem.Rotate(1 / Constants.Earth.orbitPeriod * deltaAngle));
+        _moon.Transform( Matrix4.Translation(Vector3.Zero) );
+        _moon._body.Transform = _moon._body.Transform  
+                                * Matrix4.RotationY((float)_earthSystem.Rotate(1 / Constants.Moon.orbitPeriod * deltaAngle))
+                                * translateEarthSystem
+                                * rotateEarthSystem
+                                ;
         _earth.Transform(Matrix4.RotationY(_rotation));
-
-        _earthSystem?.RotateY((float)(1 / 27.3 * deltaAngle));
+        _earth._body.Transform = _earth._body.Transform
+                                 * translateEarthSystem
+                                 * rotateEarthSystem
+                                 ;
+        
     }
     
 }

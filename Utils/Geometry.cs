@@ -1,4 +1,5 @@
-﻿using SixLabors.ImageSharp;
+﻿using EduGraf.Tensors;
+using SixLabors.ImageSharp;
 
 namespace Utils;
 

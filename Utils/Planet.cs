@@ -13,7 +13,6 @@ public class Planet
 {
     // planet axis defined as tilted from Z-Axis
     public readonly PlanetInfo Info;
-    private float rotationDays = 365;
     private Matrix4 _baseTransformation;
     
     private Matrix4 _rotateToOrigin;
@@ -23,14 +22,15 @@ public class Planet
     private GlGraphic graphic;
     private Camera camera;
 
-    private VisualPart CreateSphere(Material? material = null, GlShading? shader = null)
+    private VisualPart CreateSphere(Material? material = null, Shading? shader = null)
     {
 
         var resolution = 20;
         var color = new Color3(0.2f, 1f, 0.3f);
         var planetMaterial = material ?? new UniformMaterial(0.5f, 0.1f, color);
+        var sunlightSun = new PointLight(new Color3(1, 1, 1), 10, new(0, 0, 0));
         var sunlight = new ParallelLight(new Color3(1, 1, 1), new(0, 0, -100000));
-        var shading = shader ?? graphic.CreateShading("emissive", planetMaterial, sunlight);;
+        var shading = shader ?? graphic.CreateShading("emissive", planetMaterial, sunlightSun);;
         var positions = Sphere.GetPositions(resolution, resolution);
         var triangles = Sphere.GetTriangles(resolution, resolution);
         var textureUvs = Sphere.GetTextureUvs(resolution, resolution);
@@ -41,7 +41,7 @@ public class Planet
         return sphere;
     }
 
-    public Planet(GlGraphic graphic, Camera camera, Matrix4 transformation, PlanetInfo info, Material? material = null, GlShading? shader = null) {
+    public Planet(GlGraphic graphic, Camera camera, Matrix4 transformation, PlanetInfo info, Material? material = null, Shading? shader = null) {
         (this.graphic, this.camera, Info, _baseTransformation) = (graphic, camera, info, transformation);
 
         _body = CreateSphere(material, shader);
