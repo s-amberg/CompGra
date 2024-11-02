@@ -6,6 +6,10 @@ public class PlanetCalc
         return distance / (a.mass / b.mass + 1);
     }
     public static float ToScale(double value) {
-        return (float)(value / Constants.Earth.diameter);
+        return (float)(value / Constants.Earth.diameter) * 2;
+    }
+    
+    public static float ToScaleDistance(double value) {
+        return (float)(value / Constants.Earth.diameter) / 200;
     }
 }

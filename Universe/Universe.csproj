@@ -23,6 +23,14 @@
       <EmbeddedResource Include="resources\earthmap.jpg" />
       <None Remove="resources\cities.png" />
       <EmbeddedResource Include="resources\cities.png" />
+      <None Remove="resources\mercurymap.jpg" />
+      <EmbeddedResource Include="resources\mercurymap.jpg" />
+      <None Remove="resources\venusmap.jpg" />
+      <EmbeddedResource Include="resources\venusmap.jpg" />
+      <None Remove="resources\marsmap.jpg" />
+      <EmbeddedResource Include="resources\marsmap.jpg" />
+      <None Remove="resources\sunmap.jpg" />
+      <EmbeddedResource Include="resources\sunmap.jpg" />
     </ItemGroup>
 
 </Project>

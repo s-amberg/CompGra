@@ -1,3 +1,4 @@
+using ClassLibrary1;
 using EduGraf;
 using EduGraf.Cameras;
 using EduGraf.Geometries;
@@ -5,7 +6,6 @@ using EduGraf.Lighting;
 using EduGraf.OpenGL;
 using EduGraf.Shapes;
 using EduGraf.Tensors;
-using Universe;
 
 namespace Utils;
 
@@ -19,6 +19,7 @@ public class Planet
     private Matrix4 _rotateFromOrigin;
 
     public VisualPart _body;
+    public CelestialSystem CelestialSystem;
     private GlGraphic graphic;
     private Camera camera;
 
@@ -28,8 +29,7 @@ public class Planet
         var resolution = 20;
         var color = new Color3(0.2f, 1f, 0.3f);
         var planetMaterial = material ?? new UniformMaterial(0.5f, 0.1f, color);
-        var sunlightSun = new PointLight(new Color3(1, 1, 1), 10, new(0, 0, 0));
-        var sunlight = new ParallelLight(new Color3(1, 1, 1), new(0, 0, -100000));
+        var sunlightSun = new PointLight(new Color3(1, 1, 1), 100, new(0, 0, 0));
         var shading = shader ?? graphic.CreateShading("emissive", planetMaterial, sunlightSun);;
         var positions = Sphere.GetPositions(resolution, resolution);
         var triangles = Sphere.GetTriangles(resolution, resolution);
@@ -45,6 +45,7 @@ public class Planet
         (this.graphic, this.camera, Info, _baseTransformation) = (graphic, camera, info, transformation);
 
         _body = CreateSphere(material, shader);
+        CelestialSystem = new CelestialSystem(_body);
         _rotateToOrigin = Matrix4.RotationX(- Info.xTilt) * Matrix4.RotationZ(- Info.zTilt);
         _rotateFromOrigin = Matrix4.RotationX(Info.xTilt) * Matrix4.RotationZ(Info.zTilt);
 
@@ -52,8 +53,13 @@ public class Planet
     }
 
 
-    public void Transform(Matrix4 transformation) {
+    public void TransformBefore(Matrix4 transformation) {
         _body.Transform = transformation * _rotateFromOrigin * _baseTransformation;
+    }
+    
+    public void TransformAfter(Matrix4 transformation)
+    {
+        _body.Transform = _body.Transform * transformation;
     }
     
     

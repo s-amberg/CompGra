@@ -6,6 +6,7 @@ namespace ClassLibrary1;
 public class CelestialSystem
 {
     private double _rotation = 0;
+    private double _orbitRotation = 0;
     public Visual Body { get; set; }
 
     public CelestialSystem(Visual body)
@@ -13,11 +14,15 @@ public class CelestialSystem
         Body = body;
     }
 
-    public double Rotate(double radians)
+    public float Rotate(double radians)
     {
         _rotation += radians;
-        Console.WriteLine(_rotation);
-        return _rotation;
+        return (float) _rotation;
+    }
+    public float Orbit(double radians)
+    {
+        _orbitRotation += radians;
+        return (float) _orbitRotation;
     }
     
     public void Transform(Matrix4 matrix)

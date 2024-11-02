@@ -57,7 +57,7 @@ public static class Constants
           1,
           RadiansFromDegrees(23.8),
           0,
-          orbitPeriod: 0.24f*365,
+          orbitPeriod: 365.256363004,
           orbitTilt: RadiansFromDegrees(7.155)
      );
      
@@ -75,7 +75,7 @@ public static class Constants
      public static readonly PlanetInfo Mars = new PlanetInfo(
           mass: 6.4171 * Math.Pow(10, 23),
           diameter: 3396.2 * 2,
-          distance: 108200000,
+          distance: 249261000,
           rotationPeriod: 1.025957,
           xTilt: RadiansFromDegrees(25.19),
           zTilt: 0,
@@ -86,7 +86,7 @@ public static class Constants
      public static readonly PlanetInfo Jupiter = new PlanetInfo(
           mass: 1.8982 * Math.Pow(10, 27),
           diameter: 69911 * 2,
-          distance: 108200000,
+          distance: 816.363  * Math.Pow(10, 6),
           rotationPeriod: 24 / 9.9258,
           xTilt: RadiansFromDegrees(3.13),
           zTilt: 0,
