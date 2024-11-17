@@ -13,6 +13,9 @@ public class Geometry
     public static float[] Unroll(Vertex[] lists) {
         return lists.SelectMany(list => list.Unroll()).ToArray();
     }
+    public static float[] Unroll(Vector3[] lists) {
+        return lists.SelectMany(list => list.Elements).ToArray();
+    }
 
     public static float[] Tetraeder(Vertex[] vertices) {
         if (vertices.Length != 4) throw new ArgumentException("exactly 4 verties required");
@@ -30,6 +33,15 @@ public class Geometry
         if (vertices.Length != 4) throw new ArgumentException("exactly 4 verties required");
 
         Vertex[][] triangles = [
+            [vertices[0], vertices[1], vertices[3]],
+            [vertices[1], vertices[2], vertices[3]]
+        ];
+        return Unroll(Unroll(triangles));
+    }
+    public static float[] Rectangle(Vector3[] vertices) {
+        if (vertices.Length != 4) throw new ArgumentException("exactly 4 verties required");
+
+        Vector3[][] triangles = [
             [vertices[0], vertices[1], vertices[3]],
             [vertices[1], vertices[2], vertices[3]]
         ];

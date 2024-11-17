@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Utils\Utils.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="EduGraf" Version="1.1.9" />
+        <PackageReference Include="EduGraf.OpenGL" Version="1.1.10" />
+        <PackageReference Include="EduGraf.OpenGL.OpenTK" Version="1.1.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="resources\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="resources\*" />
+    </ItemGroup>
+    
+</Project>

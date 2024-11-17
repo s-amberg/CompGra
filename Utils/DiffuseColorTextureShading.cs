@@ -49,7 +49,6 @@ public class DiffuseColorTextureShading : GlShading
     in vec3 worldNormal;
     in vec2 textureUv;
     in vec3 surfacePosition;
-    uniform vec3 ambient;
     uniform vec3 lightPosition;
     uniform vec3 lightAmbient;
     uniform vec3 lightDiffuse;
@@ -58,14 +57,13 @@ public class DiffuseColorTextureShading : GlShading
 
     void main(void)
     {
-        vec3 mapTexture = vec3(texture(mapTextureUnit, textureUv))
-        vec3 ambientColor = lightAmbient + mapTexture;
-        vec3 diffuse = lightDiffuse * diff * mapTexture;
-
         vec3 normDir = normalize(worldNormal);
         vec3 lightDir = normalize(lightPosition - surfacePosition);
-        float diff = max(dot(norm, lightDir), 0.0);
-        vec3 diffuseColor = lightColor * (diff * material.diffuse);
+
+        vec3 mapTexture = vec3(texture(mapTextureUnit, textureUv));
+        vec3 ambientColor = lightAmbient + mapTexture;
+        float diff = max(dot(normDir, lightDir), 0.0);
+        vec3 diffuseColor = lightDiffuse * diff * mapTexture;
 
         vec3 result = ambientColor + diffuseColor;
         fragment = vec4(result, 1.0);
