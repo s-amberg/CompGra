@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using ClassLibrary1;
 using EduGraf;
 using EduGraf.Cameras;
@@ -54,7 +55,7 @@ public class UniverseRendering : Rendering
         cities.Mutate(context => context.Flip(FlipMode.Vertical)); // switch orientation, if necessary
         GlTextureHandle earthMapTexture = Graphic.CreateTexture(earthMap) as GlTextureHandle;
         GlTextureHandle citiesTexture = Graphic.CreateTexture(cities) as GlTextureHandle;
-        return new Planet(graphic, camera, transformation, Constants.Earth, null, new DiffuseColorTextureShading(graphic, new(earthMapTexture), new(citiesTexture)));
+        return new Planet(graphic, camera, transformation, Constants.Earth, null, new PlanetColorTextureShading(graphic, new(earthMapTexture), new(citiesTexture)));
     }
     
     private Planet GetMercury(GlGraphic graphic, Camera camera) {
@@ -66,7 +67,7 @@ public class UniverseRendering : Rendering
         if (earthMap == null) throw new Exception("texture not found");
         earthMap.Mutate(context => context.Flip(FlipMode.Vertical)); // switch orientation, if necessary
         GlTextureHandle earthMapTexture = Graphic.CreateTexture(earthMap) as GlTextureHandle;
-        return new Planet(graphic, camera, transformation, Constants.Mercury, null, new DiffuseColorTextureShading(graphic, new TextureParameter(earthMapTexture)));
+        return new Planet(graphic, camera, transformation, Constants.Mercury, null, new PlanetColorTextureShading(graphic, new TextureParameter(earthMapTexture)));
     }
     
     private Planet GetVenus(GlGraphic graphic, Camera camera) {
@@ -78,7 +79,7 @@ public class UniverseRendering : Rendering
         if (earthMap == null) throw new Exception("texture not found");
         earthMap.Mutate(context => context.Flip(FlipMode.Vertical)); // switch orientation, if necessary
         GlTextureHandle earthMapTexture = Graphic.CreateTexture(earthMap) as GlTextureHandle;
-        return new Planet(graphic, camera, transformation, Constants.Venus, null, new DiffuseColorTextureShading(graphic, new TextureParameter(earthMapTexture)));
+        return new Planet(graphic, camera, transformation, Constants.Venus, null, new PlanetColorTextureShading(graphic, new TextureParameter(earthMapTexture)));
     }
     
     private Planet GetMars(GlGraphic graphic, Camera camera) {
@@ -89,7 +90,7 @@ public class UniverseRendering : Rendering
         if (earthMap == null) throw new Exception("texture not found");
         earthMap.Mutate(context => context.Flip(FlipMode.Vertical)); // switch orientation, if necessary
         GlTextureHandle earthMapTexture = Graphic.CreateTexture(earthMap) as GlTextureHandle;
-        return new Planet(graphic, camera, transformation, Constants.Mars, null, new DiffuseColorTextureShading(graphic, new TextureParameter(earthMapTexture)));
+        return new Planet(graphic, camera, transformation, Constants.Mars, null, new PlanetColorTextureShading(graphic, new TextureParameter(earthMapTexture)));
     }
     
     private Planet GetSun(GlGraphic graphic, Camera camera) {

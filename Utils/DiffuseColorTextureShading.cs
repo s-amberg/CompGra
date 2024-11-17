@@ -3,34 +3,17 @@ using EduGraf.Tensors;
 
 namespace Utils;
 
-public record TextureParameter(GlTextureHandle Handle) {}
 public class DiffuseColorTextureShading : GlShading
 {
-    private static GlShadingAspect[] MapParams(TextureParameter[] parameters)
-    {
-        return parameters.Select((parameter, index) =>
-        {
-            var name = index == 0 ? "mapTextureUnit" : "lightsTextureUnit";
-            return new GlNamedTextureShadingAspect(name, parameter.Handle);
-        }).ToArray();
-    }
-    
-    private static string GetFragShader(TextureParameter[] parameters)
-    {
-        switch (parameters.Length)
-        {
-            case(1): return FragShader;
-            default: return FragShaderLights;
-        }
-    }
 
-    public DiffuseColorTextureShading(GlGraphic graphic, params TextureParameter[] textures)
-        : base("color_texture", graphic, VertShader, GetFragShader(textures), MapParams(textures))
+    public DiffuseColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, Color3 lightAmbient, Color3 lightDiffuse)
+        : base("color_texture", graphic, VertShader, FragShader, new GlNamedTextureShadingAspect("mapTextureUnit", mapTextureUnit))
     {
         DoInContext(() =>
         {
             Set("lightPosition", Point3.Origin);
-            Set("lightColor", new Color3(1, 1, 1));
+            Set("lightAmbient", lightAmbient);
+            Set("lightDiffuse", lightDiffuse);
         });
     }
 
@@ -66,42 +49,27 @@ public class DiffuseColorTextureShading : GlShading
     in vec3 worldNormal;
     in vec2 textureUv;
     in vec3 surfacePosition;
+    uniform vec3 ambient;
     uniform vec3 lightPosition;
-    uniform vec3 lightColor;
+    uniform vec3 lightAmbient;
+    uniform vec3 lightDiffuse;
     uniform sampler2D mapTextureUnit;
     out vec4 fragment;
 
     void main(void)
     {
+        vec3 mapTexture = vec3(texture(mapTextureUnit, textureUv))
+        vec3 ambientColor = lightAmbient + mapTexture;
+        vec3 diffuse = lightDiffuse * diff * mapTexture;
+
         vec3 normDir = normalize(worldNormal);
         vec3 lightDir = normalize(lightPosition - surfacePosition);
-        float i = max(dot(normDir, lightDir), 0.0);
-        if (i > 0) fragment = i * texture(mapTextureUnit, textureUv);
-        else fragment = vec4(0, 0, 0, 1);
-    }";
-    
-    private const string FragShaderLights = @"
-    #version 410
+        float diff = max(dot(norm, lightDir), 0.0);
+        vec3 diffuseColor = lightColor * (diff * material.diffuse);
 
-    in vec3 worldNormal;
-    in vec2 textureUv;
-    in vec3 surfacePosition;
-    uniform vec3 lightPosition;
-    uniform vec3 lightColor;
-    uniform sampler2D mapTextureUnit;
-    uniform sampler2D lightsTextureUnit;
-    out vec4 fragment;
+        vec3 result = ambientColor + diffuseColor;
+        fragment = vec4(result, 1.0);
 
-    void main(void)
-    {
-        vec3 normDir = normalize(worldNormal);
-        vec3 lightDir = normalize(lightPosition - surfacePosition);
-        float i = max(dot(normDir, lightDir), 0.0);
-        if (i > 0) fragment = i * texture(mapTextureUnit, textureUv);
-        else fragment = vec4(0, 0, 0, 1);
-        if (i <= 0.5f) {
-            fragment = min(vec4(1, 1, 1, 1), fragment + (-0.8 * pow(i + 0.6, 2) + 1) *texture(lightsTextureUnit, textureUv));
-        }
     }";
 
 }
