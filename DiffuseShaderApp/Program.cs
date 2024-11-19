@@ -1,39 +1,33 @@
-﻿using DiffuseShaderApp;
-using EduGraf;
+﻿using EduGraf;
 using EduGraf.Cameras;
-using EduGraf.Geometries;
 using EduGraf.Lighting;
 using EduGraf.OpenGL;
 using EduGraf.OpenGL.OpenTK;
-using EduGraf.Shapes;
 using EduGraf.Tensors;
 using EduGraf.UI;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using Utils;
-using Geometry = EduGraf.Geometries.Geometry;
 
-class SquareRendering(GlGraphic graphic)
+namespace DiffuseShaderApp;
+
+class SquareRendering(GlGraphic graphic, Camera camera)
     : Rendering(graphic, new Color3(0.2f, 0, 0.2f))
 {
-    private static readonly Square Square = new (Point3.Origin, 2);
+    public MovingLight Light = new MovingLight(new(5, 0, 0), new(0.2f, 0.2f, 0.2f), new(0.9f, 0.9f, 0.9f), new(0.5f, 0.5f, 0.5f));
     
     private GlShading GetShading() {
 
         Image<Rgba32>? texture = TextureLoader.LoadImage("DiffuseShaderApp.resources.containerDiffuse.png");
         if (texture == null) throw new Exception("texture not found");
         GlTextureHandle textureHandle = Graphic.CreateTexture(texture) as GlTextureHandle;
-        return new DiffuseColorTextureShading(graphic, textureHandle, new(0.1f, 0.1f, 0.1f), new(1, 1, 1));
+        return new DiffuseColorTextureShading(graphic, textureHandle, Light, camera);
     }
     
     private VisualPart CreateSquare(Shading? shader = null)
     {
         var shading = shader;
-        var positions = Cube.Positions;
-        var triangles = Cube.Triangles;
-        var textureUvs = Cube.TextureUv;
-        var geometry = Geometry.CreateWithUv(positions, positions, textureUvs, triangles);
+        var geometry = Square.CreateWithUV(Point3.Origin, 2);
         
         var surface = graphic.CreateSurface(shading, geometry);
         var sphere = graphic.CreateVisual("sphere", surface);
@@ -47,16 +41,55 @@ class SquareRendering(GlGraphic graphic)
     }
 }
 
+public class App
+{
+    
+    private SquareRendering rendering;
+    
+    public void Start()
+    {
+        var graphic = new OpenTkGraphic();
+        var camera = new OrbitCamera(new Point3(5, -0.5f, -4),  Point3.Origin);
+        rendering = new SquareRendering(graphic, camera);
+        using var window = new OpenTkWindow("DiffuseShaderApp", graphic, 1200, 700, camera.Handle, OnEvent);
+        window.Show(rendering, camera);
+    }
 
+    private Vector3 MovementDelta(ConsoleKey key)
+    {
+        switch (key)
+        {
+            case ConsoleKey.UpArrow: return Vector3.UnitZ;
+            case ConsoleKey.DownArrow: return -Vector3.UnitZ;
+            case ConsoleKey.RightArrow: return Vector3.UnitX;
+            case ConsoleKey.LeftArrow: return -Vector3.UnitX;
+            case ConsoleKey.PageUp: return Vector3.UnitY;
+            case ConsoleKey.PageDown: return -Vector3.UnitY;
+            default: return Vector3.Zero;
+        }
+    }
+    private void OnEvent(InputEvent evt)
+    {
+        if (typeof(EduGraf.UI.KeyInputEvent) == evt.GetType())
+        {
+            var keyEvent = evt as KeyInputEvent;
+            
+            if (keyEvent.Key == ConsoleKey.Backspace)
+            {
+                rendering.Light.Position = Point3.Origin;
+            }
+            else
+            {
+                rendering.Light.Position = rendering.Light.Position + MovementDelta(keyEvent.Key);
+            }
+        }
+    } 
+}
 
 static class Program
 {
     static void Main()
     {
-        var graphic = new OpenTkGraphic();
-        var camera = new OrbitCamera(new Point3(1, -2, -2),  Point3.Origin);
-        var rendering = new SquareRendering(graphic);
-        using var window = new OpenTkWindow("DiffuseShaderApp", graphic, 1200, 700, camera.Handle);
-        window.Show(rendering, camera);
+        new App().Start();
     }
 }

@@ -1,3 +1,4 @@
+using EduGraf.Cameras;
 using EduGraf.OpenGL;
 using EduGraf.Tensors;
 
@@ -5,15 +6,22 @@ namespace Utils;
 
 public class DiffuseColorTextureShading : GlShading
 {
+    private MovingLight _light;
 
-    public DiffuseColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, Color3 lightAmbient, Color3 lightDiffuse)
+    public DiffuseColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, MovingLight light, Camera camera)
         : base("color_texture", graphic, VertShader, FragShader, new GlNamedTextureShadingAspect("mapTextureUnit", mapTextureUnit))
     {
+        _light = light;
+        
         DoInContext(() =>
         {
-            Set("lightPosition", Point3.Origin);
-            Set("lightAmbient", lightAmbient);
-            Set("lightDiffuse", lightDiffuse);
+            Console.WriteLine(camera.View.Position);
+
+            Set("lightPosition", _light.Position);
+            Set("lightAmbient", _light.Ambient);
+            Set("lightDiffuse", _light.Diffuse);
+            Set("lightSpecular", _light.Specular);
+            Set("viewPos", camera.View.Position);
         });
     }
 
@@ -52,7 +60,9 @@ public class DiffuseColorTextureShading : GlShading
     uniform vec3 lightPosition;
     uniform vec3 lightAmbient;
     uniform vec3 lightDiffuse;
+    uniform vec3 lightSpecular;
     uniform sampler2D mapTextureUnit;
+    uniform vec3 viewPos;
     out vec4 fragment;
 
     void main(void)
@@ -60,12 +70,20 @@ public class DiffuseColorTextureShading : GlShading
         vec3 normDir = normalize(worldNormal);
         vec3 lightDir = normalize(lightPosition - surfacePosition);
 
-        vec3 mapTexture = vec3(texture(mapTextureUnit, textureUv));
-        vec3 ambientColor = lightAmbient + mapTexture;
+        vec3 mapTexture = texture(mapTextureUnit, textureUv).rgb;
+        vec3 ambientColor = lightAmbient * mapTexture;
         float diff = max(dot(normDir, lightDir), 0.0);
         vec3 diffuseColor = lightDiffuse * diff * mapTexture;
 
-        vec3 result = ambientColor + diffuseColor;
+        // specular
+        vec3 viewDir = normalize(viewPos - surfacePosition);
+        vec3 reflectDir = reflect(-lightDir, normDir);  
+        float matShininess = 64;
+        vec3 matSpecular = vec3(0.5f, 0.5f, 0.5f);
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), matShininess);
+        vec3 specularColor = lightSpecular * (spec * matSpecular);  
+
+        vec3 result = ambientColor + diffuseColor + specularColor;
         fragment = vec4(result, 1.0);
 
     }";
