@@ -3,11 +3,13 @@ using EduGraf.Cameras;
 using EduGraf.Lighting;
 using EduGraf.OpenGL;
 using EduGraf.OpenGL.OpenTK;
+using EduGraf.Shapes;
 using EduGraf.Tensors;
 using EduGraf.UI;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Utils;
+using Geometry = EduGraf.Geometries.Geometry;
 
 namespace DiffuseShaderApp;
 
@@ -36,11 +38,27 @@ class SquareRendering(GlGraphic graphic, Camera camera)
         var sphere = graphic.CreateVisual("sphere", surface);
         return sphere;
     }
+    private VisualPart CreateLightOrb()
+    {
+        var light = new AmbientLight(new Color3(1, 1, 1));
+        var shading = Graphic.CreateShading("light", new UniformMaterial(1, 1, new(1, 1, 1)), light);
+        var positions = Sphere.GetPositions(10, 10);
+        var triangles = Sphere.GetTriangles(10, 10);
+        var geometry = Geometry.Create(positions, triangles);
+        
+        var surface = graphic.CreateSurface(shading, geometry);
+        var sphere = graphic.CreateVisual("sphere", surface);
+        sphere.Translate(Light.Position.Vector);
+        sphere.Scale(0.1f);
+        return sphere;
+    }
 
     public override void OnLoad(Window window)
     {
         var geometry = CreateSquare(GetShading());
+        var light = CreateLightOrb();
         Scene.Add(geometry);
+        Scene.Add(light);
     }
 }
 
@@ -52,7 +70,7 @@ public class App
     public void Start()
     {
         var graphic = new OpenTkGraphic();
-        var camera = new OrbitCamera(new Point3(5, -1f, 2),  Point3.Origin);
+        var camera = new OrbitCamera(new Point3(-3, 3, 3),  new(1, 1, 1));
         rendering = new SquareRendering(graphic, camera);
         using var window = new OpenTkWindow("DiffuseShaderApp", graphic, 1200, 700, camera.Handle, OnEvent);
         window.Show(rendering, camera);
