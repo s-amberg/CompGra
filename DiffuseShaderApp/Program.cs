@@ -14,14 +14,17 @@ namespace DiffuseShaderApp;
 class SquareRendering(GlGraphic graphic, Camera camera)
     : Rendering(graphic, new Color3(0.2f, 0, 0.2f))
 {
-    public MovingLight Light = new MovingLight(new(5, 0, 0), new(0.2f, 0.2f, 0.2f), new(0.9f, 0.9f, 0.9f), new(0.5f, 0.5f, 0.5f));
+    public MovingLight Light = new MovingLight(new(10, 10, -10), new(0.1f, 0.1f, 0.1f), new(0.5f, 0.5f, 0.5f), new(0.9f, 0.9f, 0.9f));
     
     private GlShading GetShading() {
 
         Image<Rgba32>? texture = TextureLoader.LoadImage("DiffuseShaderApp.resources.containerDiffuse.png");
         if (texture == null) throw new Exception("texture not found");
         GlTextureHandle textureHandle = Graphic.CreateTexture(texture) as GlTextureHandle;
-        return new DiffuseColorTextureShading(graphic, textureHandle, Light, camera);
+        Image<Rgba32>? textureSpecular = TextureLoader.LoadImage("DiffuseShaderApp.resources.containerSpecular.png");
+        if (textureSpecular == null) throw new Exception("texture not found");
+        GlTextureHandle textureSpecularHandle = Graphic.CreateTexture(textureSpecular) as GlTextureHandle;
+        return new SpecularColorTextureShading(graphic, textureHandle, textureSpecularHandle, Light, camera);
     }
     
     private VisualPart CreateSquare(Shading? shader = null)
@@ -49,7 +52,7 @@ public class App
     public void Start()
     {
         var graphic = new OpenTkGraphic();
-        var camera = new OrbitCamera(new Point3(5, -0.5f, -4),  Point3.Origin);
+        var camera = new OrbitCamera(new Point3(5, -1f, 2),  Point3.Origin);
         rendering = new SquareRendering(graphic, camera);
         using var window = new OpenTkWindow("DiffuseShaderApp", graphic, 1200, 700, camera.Handle, OnEvent);
         window.Show(rendering, camera);
