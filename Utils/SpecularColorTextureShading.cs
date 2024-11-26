@@ -1,27 +1,18 @@
-using EduGraf.Cameras;
 using EduGraf.OpenGL;
-using EduGraf.Tensors;
 
 namespace Utils;
 
 public class SpecularColorTextureShading : GlShading
 {
-    private MovingLight _light;
-
-    public SpecularColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, GlTextureHandle specularTextureUnit, MovingLight light, Camera camera)
+    public SpecularColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, GlTextureHandle specularTextureUnit, MovingLight light)
         : base("color_texture", graphic, VertShader, FragShader, new GlNamedTextureShadingAspect("mapTextureUnit", mapTextureUnit), new GlNamedTextureShadingAspect("specularTextureUnit", specularTextureUnit))
     {
-        _light = light;
-        
         DoInContext(() =>
         {
-            Console.WriteLine(camera.View.Position);
-
-            Set("lightPosition", _light.Position);
-            Set("lightAmbient", _light.Ambient);
-            Set("lightDiffuse", _light.Diffuse);
-            Set("lightSpecular", _light.Specular);
-            Set("viewPos", camera.View.Position);
+            Set("lightPosition", light.Position);
+            Set("lightAmbient", light.Ambient);
+            Set("lightDiffuse", light.Diffuse);
+            Set("lightSpecular", light.Specular);
         });
     }
 
@@ -49,7 +40,6 @@ public class SpecularColorTextureShading : GlShading
         surfacePosition = vec3(worldPos);
         textureUv = TextureUv;
     }";
-
     
     private const string FragShader = @"
     #version 410
@@ -57,6 +47,7 @@ public class SpecularColorTextureShading : GlShading
     in vec3 worldNormal;
     in vec2 textureUv;
     in vec3 surfacePosition;
+    uniform vec3 CameraPosition;
     uniform vec3 lightPosition;
     uniform vec3 lightAmbient;
     uniform vec3 lightDiffuse;
@@ -65,7 +56,6 @@ public class SpecularColorTextureShading : GlShading
     uniform sampler2D mapTextureUnit;
     uniform sampler2D specularTextureUnit;
 
-    uniform vec3 viewPos;
     out vec4 fragment;
 
     void main(void)
@@ -79,7 +69,7 @@ public class SpecularColorTextureShading : GlShading
         vec3 diffuseColor = lightDiffuse * diff * mapTexture;
 
         // specular
-        vec3 viewDir = normalize(viewPos - surfacePosition);
+        vec3 viewDir = normalize(CameraPosition - surfacePosition);
         vec3 reflectDir = reflect(-lightDir, normDir);  
         float matShininess = 16;
         float spec = pow(max(dot(viewDir, reflectDir), 0.0f), matShininess);

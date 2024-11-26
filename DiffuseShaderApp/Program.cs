@@ -13,7 +13,7 @@ using Geometry = EduGraf.Geometries.Geometry;
 
 namespace DiffuseShaderApp;
 
-class SquareRendering(GlGraphic graphic, Camera camera)
+class SquareRendering(GlGraphic graphic)
     : Rendering(graphic, new Color3(0.2f, 0, 0.2f))
 {
     public MovingLight Light = new MovingLight(new(10, 10, -10), new(0.1f, 0.1f, 0.1f), new(0.5f, 0.5f, 0.5f), new(0.9f, 0.9f, 0.9f));
@@ -26,7 +26,7 @@ class SquareRendering(GlGraphic graphic, Camera camera)
         Image<Rgba32>? textureSpecular = TextureLoader.LoadImage("DiffuseShaderApp.resources.containerSpecular.png");
         if (textureSpecular == null) throw new Exception("texture not found");
         GlTextureHandle textureSpecularHandle = Graphic.CreateTexture(textureSpecular) as GlTextureHandle;
-        return new SpecularColorTextureShading(graphic, textureHandle, textureSpecularHandle, Light, camera);
+        return new SpecularColorTextureShading(graphic, textureHandle, textureSpecularHandle, Light);
     }
     
     private VisualPart CreateSquare(Shading? shader = null)
@@ -71,7 +71,7 @@ public class App
     {
         var graphic = new OpenTkGraphic();
         var camera = new OrbitCamera(new Point3(-3, 3, 3),  new(1, 1, 1));
-        rendering = new SquareRendering(graphic, camera);
+        rendering = new SquareRendering(graphic);
         using var window = new OpenTkWindow("DiffuseShaderApp", graphic, 1200, 700, camera.Handle, OnEvent);
         window.Show(rendering, camera);
     }
