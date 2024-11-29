@@ -6,9 +6,9 @@ namespace Utils;
 
 public class DiffuseColorTextureShading : GlShading
 {
-    private MovingLight _light;
+    private MovingLightInfo _light;
 
-    public DiffuseColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, MovingLight light, Camera camera)
+    public DiffuseColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, MovingLightInfo light, Camera camera)
         : base("color_texture", graphic, VertShader, FragShader, new GlNamedTextureShadingAspect("mapTextureUnit", mapTextureUnit))
     {
         _light = light;

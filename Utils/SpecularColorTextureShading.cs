@@ -4,15 +4,29 @@ namespace Utils;
 
 public class SpecularColorTextureShading : GlShading
 {
-    public SpecularColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, GlTextureHandle specularTextureUnit, MovingLight light)
+    GlGraphic _graphic;
+    GlTextureHandle _mapTextureUnit;
+    GlTextureHandle _specularTextureUnit;
+    MovingLightInfo _light;
+    private float _matShiny;   
+    
+    public SpecularColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, GlTextureHandle specularTextureUnit, MovingLightInfo light, float matShiny)
         : base("color_texture", graphic, VertShader, FragShader, new GlNamedTextureShadingAspect("mapTextureUnit", mapTextureUnit), new GlNamedTextureShadingAspect("specularTextureUnit", specularTextureUnit))
+    {
+        (_graphic, _mapTextureUnit, _specularTextureUnit, _light, _matShiny) = (graphic, mapTextureUnit, specularTextureUnit, light, matShiny);
+        
+        OnUpdate();
+    }
+
+    public void OnUpdate()
     {
         DoInContext(() =>
         {
-            Set("lightPosition", light.Position);
-            Set("lightAmbient", light.Ambient);
-            Set("lightDiffuse", light.Diffuse);
-            Set("lightSpecular", light.Specular);
+            Set("lightPosition", _light.Position);
+            Set("lightAmbient", _light.Ambient);
+            Set("lightDiffuse", _light.Diffuse);
+            Set("lightSpecular", _light.Specular);
+            Set("matShininess", _matShiny);
         });
     }
 
@@ -52,6 +66,7 @@ public class SpecularColorTextureShading : GlShading
     uniform vec3 lightAmbient;
     uniform vec3 lightDiffuse;
     uniform vec3 lightSpecular;
+    uniform float matShininess;
 
     uniform sampler2D mapTextureUnit;
     uniform sampler2D specularTextureUnit;
@@ -71,7 +86,6 @@ public class SpecularColorTextureShading : GlShading
         // specular
         vec3 viewDir = normalize(CameraPosition - surfacePosition);
         vec3 reflectDir = reflect(-lightDir, normDir);  
-        float matShininess = 16;
         float spec = pow(max(dot(viewDir, reflectDir), 0.0f), matShininess);
         vec3 specularColor = lightSpecular * spec * vec3(texture(specularTextureUnit, textureUv));  
 

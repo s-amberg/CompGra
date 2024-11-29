@@ -16,9 +16,10 @@ namespace DiffuseShaderApp;
 class SquareRendering(GlGraphic graphic)
     : Rendering(graphic, new Color3(0.2f, 0, 0.2f))
 {
-    public MovingLight Light = new MovingLight(new(10, 10, -10), new(0.1f, 0.1f, 0.1f), new(0.5f, 0.5f, 0.5f), new(0.9f, 0.9f, 0.9f));
+    public MovingLight Light;
+    private SpecularColorTextureShading _shader;
     
-    private GlShading GetShading() {
+    private SpecularColorTextureShading GetShading(MovingLightInfo light) {
 
         Image<Rgba32>? texture = TextureLoader.LoadImage("DiffuseShaderApp.resources.containerDiffuse.png");
         if (texture == null) throw new Exception("texture not found");
@@ -26,7 +27,7 @@ class SquareRendering(GlGraphic graphic)
         Image<Rgba32>? textureSpecular = TextureLoader.LoadImage("DiffuseShaderApp.resources.containerSpecular.png");
         if (textureSpecular == null) throw new Exception("texture not found");
         GlTextureHandle textureSpecularHandle = Graphic.CreateTexture(textureSpecular) as GlTextureHandle;
-        return new SpecularColorTextureShading(graphic, textureHandle, textureSpecularHandle, Light);
+        return new SpecularColorTextureShading(graphic, textureHandle, textureSpecularHandle, light, 16);
     }
     
     private VisualPart CreateSquare(Shading? shader = null)
@@ -38,31 +39,30 @@ class SquareRendering(GlGraphic graphic)
         var sphere = graphic.CreateVisual("sphere", surface);
         return sphere;
     }
-    private VisualPart CreateLightOrb()
+    private MovingLight CreateLightOrb()
     {
-        var light = new AmbientLight(new Color3(1, 1, 1));
-        var shading = Graphic.CreateShading("light", new UniformMaterial(1, 1, new(1, 1, 1)), light);
-        var positions = Sphere.GetPositions(10, 10);
-        var triangles = Sphere.GetTriangles(10, 10);
-        var geometry = Geometry.Create(positions, triangles);
-        
-        var surface = graphic.CreateSurface(shading, geometry);
-        var sphere = graphic.CreateVisual("sphere", surface);
-        sphere.Translate(Light.Position.Vector);
-        sphere.Scale(0.1f);
-        return sphere;
+        var light = new MovingLightInfo(new(3, 1, 3), new(0.1f, 0.1f, 0.1f), new(0.7f, 0.7f, 0.7f), new(0.9f, 0.9f, 0.9f));
+        var movingLight = new MovingLight(light, "lightOrb", graphic, Matrix4.Scale(0.1f));
+        return movingLight;
     }
 
     public override void OnLoad(Window window)
     {
-        var geometry = CreateSquare(GetShading());
-        var light = CreateLightOrb();
-        Scene.Add(geometry);
-        Scene.Add(light);
+        Light = CreateLightOrb();
+        _shader = GetShading(Light.light);
+        var box = CreateSquare(_shader);
+        Scene.Add(box);
+        Scene.Add(Light.sphere);
+    }
+
+    protected override void OnUpdateFrame(Window window)
+    {
+        _shader.OnUpdate();
+        base.OnUpdateFrame(window);
     }
 }
 
-public class App
+public class App(float velocity)
 {
     
     private SquareRendering rendering;
@@ -70,7 +70,7 @@ public class App
     public void Start()
     {
         var graphic = new OpenTkGraphic();
-        var camera = new OrbitCamera(new Point3(-3, 3, 3),  new(1, 1, 1));
+        var camera = new OrbitCamera(new Point3(5.5f, 3, 4.5f),  new(1, 1, 1));
         rendering = new SquareRendering(graphic);
         using var window = new OpenTkWindow("DiffuseShaderApp", graphic, 1200, 700, camera.Handle, OnEvent);
         window.Show(rendering, camera);
@@ -78,16 +78,22 @@ public class App
 
     private Vector3 MovementDelta(ConsoleKey key)
     {
-        switch (key)
-        {
-            case ConsoleKey.UpArrow: return Vector3.UnitZ;
-            case ConsoleKey.DownArrow: return -Vector3.UnitZ;
-            case ConsoleKey.RightArrow: return Vector3.UnitX;
-            case ConsoleKey.LeftArrow: return -Vector3.UnitX;
-            case ConsoleKey.PageUp: return Vector3.UnitY;
-            case ConsoleKey.PageDown: return -Vector3.UnitY;
-            default: return Vector3.Zero;
+        Vector3 GetDirectionVector(ConsoleKey key) {
+            switch (key)
+            {
+                case ConsoleKey.UpArrow: return Vector3.UnitZ;
+                case ConsoleKey.Add: return Vector3.UnitZ;
+                case ConsoleKey.DownArrow: return -Vector3.UnitZ;
+                case ConsoleKey.Subtract: return -Vector3.UnitZ;
+                case ConsoleKey.RightArrow: return Vector3.UnitX;
+                case ConsoleKey.LeftArrow: return -Vector3.UnitX;
+                case ConsoleKey.PageUp: return Vector3.UnitY;
+                case ConsoleKey.PageDown: return -Vector3.UnitY;
+                default: return Vector3.Zero;
+            }
         }
+
+        return GetDirectionVector(key) * velocity;
     }
     private void OnEvent(InputEvent evt)
     {
@@ -97,11 +103,12 @@ public class App
             
             if (keyEvent.Key == ConsoleKey.Backspace)
             {
-                rendering.Light.Position = Point3.Origin;
+                rendering.Light.Translate(new(-rendering.Light.light.Position.X, -rendering.Light.light.Position.Y, -rendering.Light.light.Position.Z));
             }
             else
             {
-                rendering.Light.Position = rendering.Light.Position + MovementDelta(keyEvent.Key);
+                var delta = MovementDelta(keyEvent.Key);
+                rendering.Light.Translate(delta);
             }
         }
     } 
@@ -111,6 +118,6 @@ static class Program
 {
     static void Main()
     {
-        new App().Start();
+        new App(0.25f).Start();
     }
 }
