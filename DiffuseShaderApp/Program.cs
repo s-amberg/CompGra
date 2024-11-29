@@ -1,6 +1,5 @@
 ﻿using EduGraf;
 using EduGraf.Cameras;
-using EduGraf.Lighting;
 using EduGraf.OpenGL;
 using EduGraf.OpenGL.OpenTK;
 using EduGraf.Shapes;
@@ -9,7 +8,6 @@ using EduGraf.UI;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Utils;
-using Geometry = EduGraf.Geometries.Geometry;
 
 namespace DiffuseShaderApp;
 
@@ -17,9 +15,12 @@ class SquareRendering(GlGraphic graphic)
     : Rendering(graphic, new Color3(0.2f, 0, 0.2f))
 {
     public MovingLight Light;
-    private SpecularColorTextureShading _shader;
+    private UpdateShader _shader;
+
+    public static Point3 SquarePos = new(10, 10, 10);
+    public static Point3 InitialLightPos = SquarePos + new Vector3(3, 1, 3);
     
-    private SpecularColorTextureShading GetShading(MovingLightInfo light) {
+    private UpdateShader GetShading(MovingLightInfo light) {
 
         Image<Rgba32>? texture = TextureLoader.LoadImage("DiffuseShaderApp.resources.containerDiffuse.png");
         if (texture == null) throw new Exception("texture not found");
@@ -33,15 +34,19 @@ class SquareRendering(GlGraphic graphic)
     private VisualPart CreateSquare(Shading? shader = null)
     {
         var shading = shader;
-        var geometry = Square.CreateWithUV(Point3.Origin, 2);
-        
+        var positions = Cube.Positions;
+        var triangles = Cube.Triangles;
+        var textureUvs = Cube.TextureUv;
+        var geometry = EduGraf.Geometries.Geometry.CreateWithUv(positions, positions, textureUvs, triangles);
         var surface = graphic.CreateSurface(shading, geometry);
         var sphere = graphic.CreateVisual("sphere", surface);
+        sphere.Scale(1);
+        sphere.Translate(SquarePos.Vector);
         return sphere;
     }
     private MovingLight CreateLightOrb()
     {
-        var light = new MovingLightInfo(new(3, 1, 3), new(0.1f, 0.1f, 0.1f), new(0.7f, 0.7f, 0.7f), new(0.9f, 0.9f, 0.9f));
+        var light = new MovingLightInfo(InitialLightPos, new(0.1f, 0.1f, 0.1f), new(0.7f, 0.7f, 0.7f), new(0.9f, 0.9f, 0.9f));
         var movingLight = new MovingLight(light, "lightOrb", graphic, Matrix4.Scale(0.1f));
         return movingLight;
     }
@@ -70,8 +75,8 @@ public class App(float velocity)
     public void Start()
     {
         var graphic = new OpenTkGraphic();
-        var camera = new OrbitCamera(new Point3(5.5f, 3, 4.5f),  new(1, 1, 1));
         rendering = new SquareRendering(graphic);
+        var camera = new OrbitCamera(SquareRendering.SquarePos + new Vector3(4.5f, 3, 5.5f),  SquareRendering.SquarePos + new Vector3(1, 1, 1));
         using var window = new OpenTkWindow("DiffuseShaderApp", graphic, 1200, 700, camera.Handle, OnEvent);
         window.Show(rendering, camera);
     }

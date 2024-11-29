@@ -50,7 +50,7 @@ public struct Square
         0.0f,
         1f
     }, 6).SelectMany<float[], float>((Func<float[], IEnumerable<float>>) (side => (IEnumerable<float>) side)).ToArray<float>();
-    
+
     public Square(Point3 position, int size)
     {
         Vertices = [

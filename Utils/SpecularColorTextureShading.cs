@@ -2,7 +2,23 @@ using EduGraf.OpenGL;
 
 namespace Utils;
 
-public class SpecularColorTextureShading : GlShading
+
+public abstract class UpdateShader : GlShading
+{
+        
+    public UpdateShader(string name, 
+        GlGraphic graphic, 
+        string vertexShader, 
+        string fragShader, 
+        params GlShadingAspect[] aspects)
+        : base(name, graphic, vertexShader, fragShader, aspects)
+    {
+        
+    }
+
+    public abstract void OnUpdate();
+}
+public class SpecularColorTextureShading : UpdateShader
 {
     GlGraphic _graphic;
     GlTextureHandle _mapTextureUnit;
@@ -18,7 +34,7 @@ public class SpecularColorTextureShading : GlShading
         OnUpdate();
     }
 
-    public void OnUpdate()
+    public override void OnUpdate()
     {
         DoInContext(() =>
         {
@@ -49,7 +65,7 @@ public class SpecularColorTextureShading : GlShading
     void main(void)
     {
 	    vec4 worldPos = vec4(Position, 1.0) * Model;
-        worldNormal = Normal * mat3(Model);
+        worldNormal = Normal * mat3(transpose(inverse(Model)));
 	    gl_Position = worldPos * View * Projection;
         surfacePosition = vec3(worldPos);
         textureUv = TextureUv;

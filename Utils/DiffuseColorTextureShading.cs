@@ -4,24 +4,27 @@ using EduGraf.Tensors;
 
 namespace Utils;
 
-public class DiffuseColorTextureShading : GlShading
+public class DiffuseColorTextureShading : UpdateShader
 {
     private MovingLightInfo _light;
 
-    public DiffuseColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, MovingLightInfo light, Camera camera)
+    public DiffuseColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, MovingLightInfo light)
         : base("color_texture", graphic, VertShader, FragShader, new GlNamedTextureShadingAspect("mapTextureUnit", mapTextureUnit))
     {
-        _light = light;
-        
+        (_light) = (light);
+
+        OnUpdate();
+    }
+    
+    
+    public override void OnUpdate()
+    {
         DoInContext(() =>
         {
-            Console.WriteLine(camera.View.Position);
-
             Set("lightPosition", _light.Position);
             Set("lightAmbient", _light.Ambient);
             Set("lightDiffuse", _light.Diffuse);
             Set("lightSpecular", _light.Specular);
-            Set("viewPos", camera.View.Position);
         });
     }
 
@@ -62,7 +65,7 @@ public class DiffuseColorTextureShading : GlShading
     uniform vec3 lightDiffuse;
     uniform vec3 lightSpecular;
     uniform sampler2D mapTextureUnit;
-    uniform vec3 viewPos;
+    uniform vec3 CameraPosition;
     out vec4 fragment;
 
     void main(void)
@@ -76,7 +79,7 @@ public class DiffuseColorTextureShading : GlShading
         vec3 diffuseColor = lightDiffuse * diff * mapTexture;
 
         // specular
-        vec3 viewDir = normalize(viewPos - surfacePosition);
+        vec3 viewDir = normalize(CameraPosition - surfacePosition);
         vec3 reflectDir = reflect(-lightDir, normDir);  
         float matShininess = 64;
         vec3 matSpecular = vec3(0.5f, 0.5f, 0.5f);
