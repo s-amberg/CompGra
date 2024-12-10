@@ -20,16 +20,13 @@ public abstract class UpdateShader : GlShading
 }
 public class SpecularColorTextureShading : UpdateShader
 {
-    GlGraphic _graphic;
-    GlTextureHandle _mapTextureUnit;
-    GlTextureHandle _specularTextureUnit;
-    MovingLightInfo _light;
-    private float _matShiny;   
+    private readonly MovingLightInfo _light;
+    private readonly float _matShiny;   
     
     public SpecularColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, GlTextureHandle specularTextureUnit, MovingLightInfo light, float matShiny)
         : base("color_texture", graphic, VertShader, FragShader, new GlNamedTextureShadingAspect("mapTextureUnit", mapTextureUnit), new GlNamedTextureShadingAspect("specularTextureUnit", specularTextureUnit))
     {
-        (_graphic, _mapTextureUnit, _specularTextureUnit, _light, _matShiny) = (graphic, mapTextureUnit, specularTextureUnit, light, matShiny);
+        (_light, _matShiny) = (light, matShiny);
         
         OnUpdate();
     }
@@ -65,7 +62,7 @@ public class SpecularColorTextureShading : UpdateShader
     void main(void)
     {
 	    vec4 worldPos = vec4(Position, 1.0) * Model;
-        worldNormal = Normal * mat3(transpose(inverse(Model)));
+        worldNormal = Normal * mat3(Model);
 	    gl_Position = worldPos * View * Projection;
         surfacePosition = vec3(worldPos);
         textureUv = TextureUv;
@@ -83,10 +80,8 @@ public class SpecularColorTextureShading : UpdateShader
     uniform vec3 lightDiffuse;
     uniform vec3 lightSpecular;
     uniform float matShininess;
-
     uniform sampler2D mapTextureUnit;
     uniform sampler2D specularTextureUnit;
-
     out vec4 fragment;
 
     void main(void)

@@ -17,8 +17,8 @@ class SquareRendering(GlGraphic graphic)
     public MovingLight Light;
     private UpdateShader _shader;
 
-    public static Point3 SquarePos = new(10, 10, 10);
-    public static Point3 InitialLightPos = SquarePos + new Vector3(3, 1, 3);
+    public static readonly Point3 SquarePos = new(10, 10, 10);
+    private static readonly Point3 InitialLightPos = SquarePos + new Vector3(3, 1, 3);
     
     private UpdateShader GetShading(MovingLightInfo light) {
 
@@ -31,9 +31,8 @@ class SquareRendering(GlGraphic graphic)
         return new SpecularColorTextureShading(graphic, textureHandle, textureSpecularHandle, light, 16);
     }
     
-    private VisualPart CreateSquare(Shading? shader = null)
+    private VisualPart CreateSquare(Shading shading)
     {
-        var shading = shader;
         var positions = Cube.Positions;
         var triangles = Cube.Triangles;
         var textureUvs = Cube.TextureUv;
@@ -46,18 +45,18 @@ class SquareRendering(GlGraphic graphic)
     }
     private MovingLight CreateLightOrb()
     {
-        var light = new MovingLightInfo(InitialLightPos, new(0.1f, 0.1f, 0.1f), new(0.7f, 0.7f, 0.7f), new(0.9f, 0.9f, 0.9f));
-        var movingLight = new MovingLight(light, "lightOrb", graphic, Matrix4.Scale(0.1f));
+        var light = new MovingLightInfo(InitialLightPos, new Color3(0.1f, 0.1f, 0.1f), new Color3(0.7f, 0.7f, 0.7f), new Color3(0.9f, 0.9f, 0.9f));
+        var movingLight = new MovingLight(light, graphic, Matrix4.Scale(0.1f));
         return movingLight;
     }
 
     public override void OnLoad(Window window)
     {
         Light = CreateLightOrb();
-        _shader = GetShading(Light.light);
+        _shader = GetShading(Light.Light);
         var box = CreateSquare(_shader);
         Scene.Add(box);
-        Scene.Add(Light.sphere);
+        Scene.Add(Light.Sphere);
     }
 
     protected override void OnUpdateFrame(Window window)
@@ -102,13 +101,13 @@ public class App(float velocity)
     }
     private void OnEvent(InputEvent evt)
     {
-        if (typeof(EduGraf.UI.KeyInputEvent) == evt.GetType())
+        if (typeof(KeyInputEvent) == evt.GetType())
         {
             var keyEvent = evt as KeyInputEvent;
             
             if (keyEvent.Key == ConsoleKey.Backspace)
             {
-                rendering.Light.Translate(new(-rendering.Light.light.Position.X, -rendering.Light.light.Position.Y, -rendering.Light.light.Position.Z));
+                rendering.Light.Translate(new Vector3(-rendering.Light.Light.Position.X, -rendering.Light.Light.Position.Y, -rendering.Light.Light.Position.Z));
             }
             else
             {

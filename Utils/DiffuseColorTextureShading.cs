@@ -1,12 +1,10 @@
-using EduGraf.Cameras;
 using EduGraf.OpenGL;
-using EduGraf.Tensors;
 
 namespace Utils;
 
 public class DiffuseColorTextureShading : UpdateShader
 {
-    private MovingLightInfo _light;
+    private readonly MovingLightInfo _light;
 
     public DiffuseColorTextureShading(GlGraphic graphic, GlTextureHandle mapTextureUnit, MovingLightInfo light)
         : base("color_texture", graphic, VertShader, FragShader, new GlNamedTextureShadingAspect("mapTextureUnit", mapTextureUnit))
@@ -60,12 +58,12 @@ public class DiffuseColorTextureShading : UpdateShader
     in vec3 worldNormal;
     in vec2 textureUv;
     in vec3 surfacePosition;
+    uniform vec3 CameraPosition;
     uniform vec3 lightPosition;
     uniform vec3 lightAmbient;
     uniform vec3 lightDiffuse;
     uniform vec3 lightSpecular;
     uniform sampler2D mapTextureUnit;
-    uniform vec3 CameraPosition;
     out vec4 fragment;
 
     void main(void)
@@ -73,7 +71,7 @@ public class DiffuseColorTextureShading : UpdateShader
         vec3 normDir = normalize(worldNormal);
         vec3 lightDir = normalize(lightPosition - surfacePosition);
 
-        vec3 mapTexture = texture(mapTextureUnit, textureUv).rgb;
+        vec3 mapTexture = vec3(texture(mapTextureUnit, textureUv));
         vec3 ambientColor = lightAmbient * mapTexture;
         float diff = max(dot(normDir, lightDir), 0.0);
         vec3 diffuseColor = lightDiffuse * diff * mapTexture;
