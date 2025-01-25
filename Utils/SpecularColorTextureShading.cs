@@ -68,7 +68,7 @@ public class SpecularColorTextureShading : UpdateShader
         textureUv = TextureUv;
     }";
     
-    private const string FragShader = @"
+    private const string FragShader = $@"
     #version 410
 
     in vec3 worldNormal;
@@ -85,7 +85,7 @@ public class SpecularColorTextureShading : UpdateShader
     out vec4 fragment;
 
     void main(void)
-    {
+    {{
         vec3 normDir = normalize(worldNormal);
         vec3 lightDir = normalize(lightPosition - surfacePosition);
 
@@ -96,6 +96,7 @@ public class SpecularColorTextureShading : UpdateShader
 
         // specular
         vec3 viewDir = normalize(CameraPosition - surfacePosition);
+        float lightAngle = dot(-lightDir, normDir);
         vec3 reflectDir = reflect(-lightDir, normDir);  
         float spec = pow(max(dot(viewDir, reflectDir), 0.0f), matShininess);
         vec3 specularColor = lightSpecular * spec * vec3(texture(specularTextureUnit, textureUv));  
@@ -103,6 +104,6 @@ public class SpecularColorTextureShading : UpdateShader
         vec3 result = ambientColor + diffuseColor + specularColor;
         fragment = vec4(result, 1.0);
 
-    }";
+    }}";
 
 }

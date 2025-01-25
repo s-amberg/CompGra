@@ -18,7 +18,7 @@ class SquareRendering(GlGraphic graphic)
     private UpdateShader _shader;
 
     public static readonly Point3 SquarePos = new(10, 10, 10);
-    private static readonly Point3 InitialLightPos = SquarePos + new Vector3(3, 1, 3);
+    public static readonly Point3 InitialLightPos = SquarePos + new Vector3(3, 1, 3);
     
     private UpdateShader GetShading(MovingLightInfo light) {
 
@@ -87,13 +87,14 @@ public class App(float velocity)
             switch (key)
             {
                 case ConsoleKey.UpArrow: return Vector3.UnitZ;
-                case ConsoleKey.Add: return Vector3.UnitZ;
                 case ConsoleKey.DownArrow: return -Vector3.UnitZ;
-                case ConsoleKey.Subtract: return -Vector3.UnitZ;
                 case ConsoleKey.RightArrow: return Vector3.UnitX;
                 case ConsoleKey.LeftArrow: return -Vector3.UnitX;
+                case ConsoleKey.Home: return Vector3.UnitY;
+                case ConsoleKey.End: return -Vector3.UnitY;
                 case ConsoleKey.PageUp: return Vector3.UnitY;
                 case ConsoleKey.PageDown: return -Vector3.UnitY;
+                case ConsoleKey.Backspace: return (SquareRendering.InitialLightPos - rendering.Light.Light.Position) * (1/velocity);
                 default: return Vector3.Zero;
             }
         }
@@ -106,15 +107,8 @@ public class App(float velocity)
         {
             var keyEvent = evt as KeyInputEvent;
             
-            if (keyEvent.Key == ConsoleKey.Backspace)
-            {
-                rendering.Light.Translate(new Vector3(-rendering.Light.Light.Position.X, -rendering.Light.Light.Position.Y, -rendering.Light.Light.Position.Z));
-            }
-            else
-            {
                 var delta = MovementDelta(keyEvent.Key);
                 rendering.Light.Translate(delta);
-            }
         }
     } 
 }
@@ -123,6 +117,6 @@ static class Program
 {
     static void Main()
     {
-        new App(0.25f).Start();
+        new App(0.1f).Start();
     }
 }
