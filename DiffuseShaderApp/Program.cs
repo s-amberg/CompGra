@@ -34,9 +34,10 @@ class SquareRendering(GlGraphic graphic)
     private VisualPart CreateSquare(Shading shading)
     {
         var positions = Cube.Positions;
+        var normals = Cube.Normals;
         var triangles = Cube.Triangles;
         var textureUvs = Cube.TextureUv;
-        var geometry = EduGraf.Geometries.Geometry.CreateWithUv(positions, positions, textureUvs, triangles);
+        var geometry = EduGraf.Geometries.Geometry.CreateWithUv(positions, normals, textureUvs, triangles);
         var surface = graphic.CreateSurface(shading, geometry);
         var sphere = graphic.CreateVisual("sphere", surface);
         sphere.Scale(1);
